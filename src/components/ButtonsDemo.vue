@@ -1,0 +1,132 @@
+<template>
+  <div>
+    <q-page-header>
+      <q-toolbar-title>Демонстрация кнопок</q-toolbar-title>
+    </q-page-header>
+
+    <div class="q-gutter-md">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Основные кнопки</div>
+          <div class="q-gutter-sm q-mt-md">
+            <q-btn color="primary" label="Primary" />
+            <q-btn color="secondary" label="Secondary" />
+            <q-btn color="accent" label="Accent" />
+            <q-btn color="positive" label="Positive" />
+            <q-btn color="negative" label="Negative" />
+            <q-btn color="info" label="Info" />
+            <q-btn color="warning" label="Warning" />
+          </div>
+        </q-card-section>
+      </q-card>
+
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Кнопки с иконками</div>
+          <div class="q-gutter-sm q-mt-md">
+            <q-btn color="primary" icon="add" label="Добавить" />
+            <q-btn color="secondary" icon="edit" label="Редактировать" />
+            <q-btn color="negative" icon="delete" label="Удалить" />
+            <q-btn color="info" icon="download" label="Скачать" />
+            <q-btn color="warning" icon="warning" label="Предупреждение" />
+          </div>
+        </q-card-section>
+      </q-card>
+
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Размеры кнопок</div>
+          <div class="q-gutter-sm q-mt-md">
+            <q-btn size="xs" color="primary" label="Очень маленькая" />
+            <q-btn size="sm" color="primary" label="Маленькая" />
+            <q-btn size="md" color="primary" label="Средняя" />
+            <q-btn size="lg" color="primary" label="Большая" />
+            <q-btn size="xl" color="primary" label="Очень большая" />
+          </div>
+        </q-card-section>
+      </q-card>
+
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Стили кнопок</div>
+          <div class="q-gutter-sm q-mt-md">
+            <q-btn color="primary" label="Обычная" />
+            <q-btn color="primary" outline label="Контурная" />
+            <q-btn color="primary" flat label="Плоская" />
+            <q-btn color="primary" unelevated label="Без тени" />
+            <q-btn color="primary" round icon="favorite" />
+            <q-btn color="primary" fab icon="add" />
+          </div>
+        </q-card-section>
+      </q-card>
+
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Кнопки с загрузкой</div>
+          <div class="q-gutter-sm q-mt-md">
+            <q-btn 
+              :loading="loading" 
+              color="primary" 
+              label="Загрузить данные"
+              @click="simulateLoading"
+            />
+            <q-btn 
+              :loading="loading2" 
+              color="secondary" 
+              icon="cloud_download"
+              label="Скачать файл"
+              @click="simulateLoading2"
+            />
+          </div>
+        </q-card-section>
+      </q-card>
+
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Группа кнопок</div>
+          <div class="q-mt-md">
+            <q-btn-group flat>
+              <q-btn color="primary" icon="format_align_left" />
+              <q-btn color="primary" icon="format_align_center" />
+              <q-btn color="primary" icon="format_align_right" />
+            </q-btn-group>
+          </div>
+        </q-card-section>
+      </q-card>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'ButtonsDemo',
+  data() {
+    return {
+      loading: false,
+      loading2: false
+    }
+  },
+  methods: {
+    simulateLoading() {
+      this.loading = true
+      setTimeout(() => {
+        this.loading = false
+        this.$q.notify({
+          type: 'positive',
+          message: 'Данные загружены!'
+        })
+      }, 2000)
+    },
+    simulateLoading2() {
+      this.loading2 = true
+      setTimeout(() => {
+        this.loading2 = false
+        this.$q.notify({
+          type: 'info',
+          message: 'Файл скачан!'
+        })
+      }, 1500)
+    }
+  }
+}
+</script> 
