@@ -16,12 +16,18 @@ npm ru<template>
             UI Kit - Vue 2 + Quasar
           </q-toolbar-title>
 
-          <q-btn round flat size="lg" class="q-ml-md" @click.stop="avatarMenu = true">
+          <q-btn round flat size="lg" class="q-ml-md" @click="openAvatarMenu">
             <q-avatar size="36px">
               <img src="https://cdn.quasar.dev/img/avatar4.jpg" alt="User" />
             </q-avatar>
           </q-btn>
-          <q-menu v-model="avatarMenu" anchor="bottom right" self="top right" :offset="[0, 8]">
+          <q-menu
+            v-model="avatarMenu"
+            anchor="bottom right"
+            self="top right"
+            :offset="[0, 8]"
+            :no-parent-event="true"
+          >
             <q-list style="min-width: 160px;">
               <q-item clickable v-close-popup>
                 <q-item-section avatar>
@@ -134,6 +140,11 @@ export default {
       leftDrawerOpen: false,
       drawerMini: false,
       avatarMenu: false
+    }
+  },
+  methods: {
+    openAvatarMenu() {
+      this.avatarMenu = !this.avatarMenu;
     }
   }
 }
