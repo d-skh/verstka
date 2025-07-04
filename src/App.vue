@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <q-layout view="lHh Lpr lFf">
-      <q-header elevated class="text-white bg-primary">
+      <q-header elevated class="text-white bg-quaternary">
         <q-toolbar >
           <q-btn
             flat

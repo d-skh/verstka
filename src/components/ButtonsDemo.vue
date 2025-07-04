@@ -18,6 +18,8 @@
             <q-btn color="negative" label="Negative" />
             <q-btn color="info" label="Info" />
             <q-btn color="warning" label="Warning" />
+            <q-btn color="abracadabra-bro" label="abracadabra-bro" />
+
           </div>
         </q-card-section>
       </q-card>

@@ -7,8 +7,13 @@ import 'quasar/dist/quasar.css'
 import 'material-symbols/outlined.css'
 import 'quasar-extras/material-icons'
 import './quasar.variables.styl'
+import colors from './colors.js'
 
-Vue.use(Quasar)
+Vue.use(Quasar, {
+    config: {
+        brand: colors
+    }
+})
 
 Vue.config.productionTip = false
 
