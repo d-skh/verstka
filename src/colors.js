@@ -9,5 +9,6 @@ export default {
     warning: '#F2C037',
     tertiary: '#FF9800',
     quaternary: '#8BC34A',
-    abracadabraBro: '#212529'
+    abracadabraBro: '#212529',
+    backgroundLight: '#FFFFFF'
 }

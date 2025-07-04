@@ -14,12 +14,18 @@
             <q-btn color="tertiary" label="tertiary" />
             <q-btn color="quaternary" label="quaternary" />
             <q-btn color="accent" label="Accent" />
+
+            <q-btn disabled color="accent" label="Accent" />
+            <q-btn outline color="accent" label="Accent" />
+
+            <q-btn outline disabled color="accent" label="Accent" />
+
             <q-btn color="positive" label="Positive" />
             <q-btn color="negative" label="Negative" />
             <q-btn color="info" label="Info" />
             <q-btn color="warning" label="Warning" />
             <q-btn color="abracadabra-bro" label="abracadabra-bro" />
-
+            <q-btn color="background-light" label="background-light" class="text-black"/>
           </div>
         </q-card-section>
       </q-card>
