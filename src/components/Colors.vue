@@ -5,33 +5,23 @@
     </q-page-header>
     <div class="q-gutter-md q-mt-md">
       <div v-for="section in colorSections" :key="section.title" class="q-mb-xl">
-        <q-card flat bordered>
-          <q-card-section class="bg-grey-2">
-            <div class="text-h6 text-center">{{ section.title }}</div>
-          </q-card-section>
-          <q-separator />
-          <q-card-section class="q-pa-none color-section-cards">
-            <div class="row q-col-gutter-md justify-center">
-              <div
-                v-for="color in section.colors"
-                :key="color.label"
-                class="col-12 col-sm-6 col-md-3 flex flex-center"
-              >
-                <div class="color-card flex flex-center column" :style="{ background: color.hex, color: color.text || '#212529' }">
-                  <div class="color-name text-bold q-mb-xs">
-                    {{ color.label }}
-                  </div>
-                  <div class="color-hex text-caption q-mb-xs">
-                    {{ color.hex }}
-                  </div>
-                  <div class="color-var text-caption" v-if="color.var">
-                    {{ color.var }}
-                  </div>
-                </div>
+        <h6 class="q-mb-md">{{ section.title }}</h6>
+        <div class="row q-col-gutter-md">
+          <div
+            v-for="color in section.colors"
+            :key="color.label"
+            class="col-12 col-sm-6 col-md-3 flex flex-center"
+          >
+            <div class="color-block flex flex-center column" :style="{ background: color.hex, color: color.text || '#212529' }">
+              <div class="color-name text-bold q-mb-xs">
+                {{ color.label }}
+              </div>
+              <div class="color-hex text-caption q-mb-xs">
+                {{ color.hex }}
               </div>
             </div>
-          </q-card-section>
-        </q-card>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -134,7 +124,7 @@ export default {
 </script>
 
 <style scoped>
-.color-card {
+.color-block {
   width: 100%;
   min-height: 100px;
   border-radius: 8px;
@@ -143,11 +133,15 @@ export default {
   margin-bottom: 0;
   margin-top: 0;
   text-align: center;
+  cursor: pointer;
+  transition: filter 0.25s, box-shadow 0.25s, transform 0.25s cubic-bezier(.4,1.5,.5,1), -webkit-transform 0.25s cubic-bezier(.4,1.5,.5,1);
+}
+.color-block:hover {
+  filter: brightness(0.92);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  transform: scale(1.04) translateY(-6px);
 }
 .color-name {
   font-size: 1.1em;
-}
-.color-section-cards {
-  padding: 16px 16px 24px 16px;
 }
 </style> 
