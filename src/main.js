@@ -4,6 +4,7 @@ import store from './store'
 import router from './router'
 import Quasar from 'quasar'
 import 'quasar/dist/quasar.css'
+import 'material-symbols/outlined.css'
 import 'quasar-extras/material-icons'
 
 Vue.use(Quasar, {

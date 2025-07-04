@@ -1,4 +1,4 @@
-<template>
+npm ru<template>
   <div id="app">
     <q-layout view="lHh Lpr lFf">
       <q-header elevated class="bg-primary text-white">
@@ -22,42 +22,69 @@
 
       <q-drawer
         v-model="leftDrawerOpen"
+        :width="drawerMini ? 64 : 240"
+        :mini="drawerMini"
         show-if-above
         bordered
         content-class="bg-grey-1"
       >
+        <div class="q-pa-sm flex flex-center">
+          <q-btn
+            dense
+            flat
+            round
+            :icon="drawerMini ? 'chevron_right' : 'chevron_left'"
+            @click="drawerMini = !drawerMini"
+            aria-label="Переключить режим сайдбара"
+          />
+        </div>
         <q-list>
-          <q-item-label header>Навигация</q-item-label>
           <router-link to="/buttons" custom v-slot="{ navigate, href, isActive }">
             <q-item clickable v-ripple :active="isActive" @click="navigate">
               <q-item-section avatar>
-                <q-icon name="smart_button" />
+                <span class="material-symbols-outlined" style="font-size: 24px;">switch</span>
               </q-item-section>
-              <q-item-section>Кнопки</q-item-section>
+              <q-item-section v-if="!drawerMini">Кнопки</q-item-section>
             </q-item>
           </router-link>
           <router-link to="/forms" custom v-slot="{ navigate, href, isActive }">
             <q-item clickable v-ripple :active="isActive" @click="navigate">
               <q-item-section avatar>
-                <q-icon name="input" />
+                <span class="material-symbols-outlined" style="font-size: 24px;">edit</span>
               </q-item-section>
-              <q-item-section>Формы</q-item-section>
+              <q-item-section v-if="!drawerMini">Формы</q-item-section>
             </q-item>
           </router-link>
           <router-link to="/cards" custom v-slot="{ navigate, href, isActive }">
             <q-item clickable v-ripple :active="isActive" @click="navigate">
               <q-item-section avatar>
-                <q-icon name="dashboard" />
+                <span class="material-symbols-outlined" style="font-size: 24px;">view_module</span>
               </q-item-section>
-              <q-item-section>Карточки</q-item-section>
+              <q-item-section v-if="!drawerMini">Карточки</q-item-section>
             </q-item>
           </router-link>
           <router-link to="/dialogs" custom v-slot="{ navigate, href, isActive }">
             <q-item clickable v-ripple :active="isActive" @click="navigate">
               <q-item-section avatar>
-                <q-icon name="chat" />
+                <span class="material-symbols-outlined" style="font-size: 24px;">chat</span>
               </q-item-section>
-              <q-item-section>Диалоги</q-item-section>
+              <q-item-section v-if="!drawerMini">Диалоги</q-item-section>
+            </q-item>
+          </router-link>
+          <router-link to="/icons" custom v-slot="{ navigate, href, isActive }">
+            <q-item clickable v-ripple :active="isActive" @click="navigate">
+              <q-item-section avatar>
+                <span class="material-symbols-outlined" style="font-size: 24px;">star</span>
+              </q-item-section>
+              <q-item-section v-if="!drawerMini">Иконки</q-item-section>
+            </q-item>
+          </router-link>
+          <router-link to="/colors" custom v-slot="{ navigate, href, isActive }">
+            <q-item clickable v-ripple :active="isActive" @click="navigate">
+              <q-item-section avatar>
+                <span class="material-symbols-outlined" style="font-size: 24px;">palette</span>
+              </q-item-section>
+              <q-item-section v-if="!drawerMini">Цвета</q-item-section>
             </q-item>
           </router-link>
         </q-list>
@@ -77,7 +104,8 @@ export default {
   name: 'App',
   data() {
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen: false,
+      drawerMini: false
     }
   }
 }
