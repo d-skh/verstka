@@ -45,6 +45,12 @@ export default new Router({
             path: '/colors',
             name: 'Colors',
             component: Colors
+        },
+        {
+            path: '/spacing',
+            name: 'SpacingDemo',
+            component: () =>
+                import ('@/components/SpacingDemo.vue')
         }
     ]
 })

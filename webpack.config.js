@@ -41,6 +41,19 @@ module.exports = (env, argv) => {
                     ]
                 },
                 {
+                    test: /\.styl$/,
+                    use: [
+                        isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+                        'css-loader',
+                        {
+                            loader: 'stylus-loader',
+                            options: {
+                                import: [path.resolve(__dirname, 'src/quasar.variables.styl')]
+                            }
+                        }
+                    ]
+                },
+                {
                     test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
                     loader: 'url-loader',
                     options: {

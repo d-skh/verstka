@@ -11,6 +11,8 @@
           <div class="q-gutter-sm q-mt-md">
             <q-btn color="primary" label="Primary" />
             <q-btn color="secondary" label="Secondary" />
+            <q-btn color="tertiary" label="tertiary" />
+            <q-btn color="quaternary" label="quaternary" />
             <q-btn color="accent" label="Accent" />
             <q-btn color="positive" label="Positive" />
             <q-btn color="negative" label="Negative" />
@@ -25,9 +27,9 @@
           <div class="text-h6">Кнопки с иконками</div>
           <div class="q-gutter-sm q-mt-md">
             <q-btn color="primary" icon="add" label="Добавить" />
-            <q-btn color="secondary" icon="edit" label="Редактировать" />
+            <q-btn color="quaternary" icon="edit" label="Редактировать" />
             <q-btn color="negative" icon="delete" label="Удалить" />
-            <q-btn color="info" icon="download" label="Скачать" />
+            <q-btn color="info" icon="file_download" label="Скачать" />
             <q-btn color="warning" icon="warning" label="Предупреждение" />
           </div>
         </q-card-section>

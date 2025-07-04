@@ -23,6 +23,13 @@
           </div>
         </div>
       </div>
+      <div class="q-mb-md">
+        <div class="color-box bg-primary">primary</div>
+        <div class="color-box bg-secondary">secondary</div>
+        <div class="color-box bg-accent">accent</div>
+        <div class="color-box bg-tertiary">tertiary (кастомный)</div>
+        <div class="color-box bg-quaternary">quaternary (кастомный)</div>
+      </div>
     </div>
   </div>
 </template>

@@ -1,8 +1,8 @@
-npm ru<template>
+<template>
   <div id="app">
     <q-layout view="lHh Lpr lFf">
-      <q-header elevated class="bg-primary text-white">
-        <q-toolbar>
+      <q-header elevated class="text-white bg-primary">
+        <q-toolbar >
           <q-btn
             flat
             dense
@@ -118,6 +118,14 @@ npm ru<template>
                 <span class="material-symbols-outlined" style="font-size: 24px;">palette</span>
               </q-item-section>
               <q-item-section v-if="!drawerMini">Цвета</q-item-section>
+            </q-item>
+          </router-link>
+          <router-link to="/spacing" custom v-slot="{ navigate, href, isActive }">
+            <q-item clickable v-ripple :active="isActive" @click="navigate">
+              <q-item-section avatar>
+                <span class="material-symbols-outlined" style="font-size: 24px;">format_line_spacing</span>
+              </q-item-section>
+              <q-item-section v-if="!drawerMini">Спейсинг</q-item-section>
             </q-item>
           </router-link>
         </q-list>
