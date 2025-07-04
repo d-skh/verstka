@@ -16,7 +16,34 @@ npm ru<template>
             UI Kit - Vue 2 + Quasar
           </q-toolbar-title>
 
-          <div>v1.0.0</div>
+          <q-btn round flat size="lg" class="q-ml-md" @click.stop="avatarMenu = true">
+            <q-avatar size="36px">
+              <img src="https://cdn.quasar.dev/img/avatar4.jpg" alt="User" />
+            </q-avatar>
+          </q-btn>
+          <q-menu v-model="avatarMenu" anchor="bottom right" self="top right" :offset="[0, 8]">
+            <q-list style="min-width: 160px;">
+              <q-item clickable v-close-popup>
+                <q-item-section avatar>
+                  <q-icon name="person" />
+                </q-item-section>
+                <q-item-section>Профиль</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section avatar>
+                  <q-icon name="settings" />
+                </q-item-section>
+                <q-item-section>Настройки</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item clickable v-close-popup>
+                <q-item-section avatar>
+                  <q-icon name="logout" />
+                </q-item-section>
+                <q-item-section>Выйти</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
         </q-toolbar>
       </q-header>
 
@@ -105,7 +132,8 @@ export default {
   data() {
     return {
       leftDrawerOpen: false,
-      drawerMini: false
+      drawerMini: false,
+      avatarMenu: false
     }
   }
 }
