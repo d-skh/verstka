@@ -20,55 +20,69 @@ module.exports = (env, argv) => {
             extensions: ['.js', '.vue', '.json'],
             alias: {
                 'vue$': 'vue/dist/vue.esm.js',
-                '@': path.resolve(__dirname, 'src')
+                '@': path.resolve(__dirname, 'src'),
+                'components': path.resolve(__dirname, 'src/components'),
+                'layouts': path.resolve(__dirname, 'src/layouts'),
+                'pages': path.resolve(__dirname, 'src/pages'),
+                'assets': path.resolve(__dirname, 'src/assets'),
+                'quasar': path.resolve(__dirname, 'node_modules/quasar/'),
+                '@quasar': path.resolve(__dirname, 'node_modules/@quasar/')
             }
         },
         module: {
             rules: [{
-                    test: /\.vue$/,
-                    loader: 'vue-loader'
-                },
-                {
-                    test: /\.js$/,
-                    loader: 'babel-loader',
-                    exclude: /node_modules/
-                },
-                {
-                    test: /\.css$/,
-                    use: [
-                        isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
-                        'css-loader'
-                    ]
-                },
-                {
-                    test: /\.styl$/,
-                    use: [
-                        isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
-                        'css-loader',
-                        {
-                            loader: 'stylus-loader',
-                            options: {
-                                import: [path.resolve(__dirname, 'src/quasar.variables.styl')]
-                            }
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+                    'css-loader'
+                ]
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+                    'css-loader',
+                    'sass-loader' // просто sass-loader без сложных опций
+                ]
+            },
+            {
+                test: /\.styl$/,
+                use: [
+                    isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+                    'css-loader',
+                    {
+                        loader: 'stylus-loader',
+                        options: {
+                            import: [path.resolve(__dirname, 'src/quasar.variables.styl')]
                         }
-                    ]
-                },
-                {
-                    test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                    loader: 'url-loader',
-                    options: {
-                        limit: 10000,
-                        name: 'img/[name].[hash:7].[ext]'
                     }
-                },
-                {
-                    test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                    loader: 'url-loader',
-                    options: {
-                        limit: 10000,
-                        name: 'fonts/[name].[hash:7].[ext]'
-                    }
+                ]
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    name: 'img/[name].[hash:7].[ext]'
                 }
+            },
+            {
+                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    name: 'fonts/[name].[hash:7].[ext]'
+                }
+            }
             ]
         },
         plugins: [
