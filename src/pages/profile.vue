@@ -18,216 +18,201 @@
             <div class="text-h4">{{ userProfile.role }}</div>
             
             <!-- Статус онлайн -->
-            <q-badge outline color="positive" class="q-mt-sm">
+            <q-badge outline color="accent" class="q-mt-sm">
               <q-icon name="circle" size="8px" class="q-mr-xs" />
               В сети
             </q-badge>
           </q-card-section>
 
           <q-card-section>
-            <!-- Быстрые действия -->
-            <div class="quick-actions">
-              <q-btn 
-                color="primary" 
-                icon="edit" 
-                label="Редактировать профиль" 
-                class="full-width q-mb-sm"
-                @click="showEditDataDialog = true"
-              />
-              <q-btn 
-                outline 
-                color="primary" 
-                icon="lock" 
-                label="Сменить пароль" 
-                class="full-width"
-                @click="showChangePasswordDialog = true"
-              />
-            </div>
-
-            <!-- Краткая контактная информация -->
-            <div class="contact-summary q-mt-lg">
+            <div class="contact-summary">
               <div class="contact-item q-mb-sm">
                 <q-icon name="phone" size="sm" class="q-mr-sm text-grey-6" />
                 <span class="text-h4">{{ userProfile.phone }}</span>
               </div>
-              <div class="contact-item">
+              <div class="contact-item q-mb-md">
                 <q-icon name="email" size="sm" class="q-mr-sm text-grey-6" />
                 <span class="text-h4">{{ userProfile.email }}</span>
               </div>
             </div>
+            <!-- Быстрые действия -->
+            <div class="">
+              <q-btn class="full-width q-mb-sm" size="md" color="primary" text-color="dark" label="Редактировать профиль" icon="edit" padding="8px 12px" @click="showEditDataDialog = true"/>
+
+              <q-btn outline class="full-width" size="md" color="primary" label="Сменить пароль" icon="lock" text-color="dark" padding="8px 12px" @click="showChangePasswordDialog = true"/>
+
+            </div>
+
+            <!-- Краткая контактная информация -->
+            
           </q-card-section>
         </q-card>
       </div>
+      
 
       <!-- Правая колонка - Контент -->
       <div class="col-12 col-md-8">
         <q-card>
-          <q-tabs
-            v-model="currentTab"
-            dense
-            class="text-h3"
-            active-color="primary"
-            indicator-color="primary"
-            align="justify"
-            narrow-indicator
-          >
-            <q-tab name="profile" icon="person" label="Профиль" />
-            <q-tab name="security" icon="security" label="Безопасность" />
-            <q-tab name="support" icon="support" label="Техподдержка" />
-            <q-tab name="activity" icon="activity" label="Активность" />
-          </q-tabs>
+  <!-- Кастомные табы -->
+  <div class="custom-tabs">
+    <div 
+      v-for="tab in tabs" 
+      :key="tab.name"
+      class="custom-tab text-h3 q-pa-md"
+      :class="{ 'active': currentTab === tab.name }"
+      @click="currentTab = tab.name"
+    >
+      <q-icon :name="tab.icon" class="q-mr-sm" />
+      {{ tab.label }}
+    </div>
+  </div>
 
-          <q-separator />
+  <q-separator />
 
-          <q-tab-panels v-model="currentTab" animated>
-            
-            <!-- Вкладка Профиль -->
-            <q-tab-panel name="profile">
-              <div class="text-h2 q-mb-md">Личная информация</div>
-              
-              <div class="info-grid">
-                <div class="info-item">
-                  <div class="text-h5">Полное имя</div>
-                  <div class="text-h4">{{ userProfile.name }}</div>
-                </div>
-                <div class="info-item">
-                  <div class="text-h5">Должность</div>
-                  <div class="text-h4">{{ userProfile.role }}</div>
-                </div>
-                <div class="info-item">
-                  <div class="text-h5">Телефон</div>
-                  <div class="text-h4">{{ userProfile.phone }}</div>
-                </div>
-                <div class="info-item">
-                  <div class="text-h5">Email</div>
-                  <div class="text-h4">{{ userProfile.email }}</div>
-                </div>
-              </div>
+  <!-- Контент табов -->
+  <div class="tab-content">
+    
+    <!-- Вкладка Профиль -->
+    <div v-if="currentTab === 'profile'" class="tab-panel q-pa-md">
+      <div class="text-h2 q-mb-md">Личная информация</div>
+      
+      <div class="info-grid">
+        <div class="">
+          <div class="text-h5">Полное имя</div>
+          <div class="text-h4">{{ userProfile.name }}</div>
+        </div>
+        <div class="">
+          <div class="text-h5">Должность</div>
+          <div class="text-h4">{{ userProfile.role }}</div>
+        </div>
+        <div class="">
+          <div class="text-h5">Телефон</div>
+          <div class="text-h4">{{ userProfile.phone }}</div>
+        </div>
+        <div class="">
+          <div class="text-h5">Email</div>
+          <div class="text-h4">{{ userProfile.email }}</div>
+        </div>
+      </div>
+      
+    </div>
 
-              <!-- Быстрые ссылки -->
-              <div class="quick-links q-mt-xl">
-                <div class="text-h3 q-mb-md">Быстрый доступ</div>
-                <div class="row q-col-gutter-sm">
-                  <div class="col-6">
-                    <q-card class="link-card cursor-pointer" @click="$router.push('/my-questions')">
-                      <q-card-section class="text-center">
-                        <q-icon name="help" size="lg" color="primary" />
-                        <div class="text-h4 q-mt-sm">Мои вопросы</div>
-                      </q-card-section>
-                    </q-card>
-                  </div>
-                  <div class="col-6">
-                    <q-card class="link-card cursor-pointer" @click="$router.push('/my-devices')">
-                      <q-card-section class="text-center">
-                        <q-icon name="devices" size="lg" color="primary" />
-                        <div class="text-h4 q-mt-sm">Мои устройства</div>
-                      </q-card-section>
-                    </q-card>
-                  </div>
-                </div>
-              </div>
-            </q-tab-panel>
+    <!-- Вкладка Безопасность -->
+    <div v-if="currentTab === 'security'" class="tab-panel q-pa-md">
+      <div class="text-h2 q-mb-md">Настройки безопасности</div>
+      
+      <q-list bordered class="rounded-borders">
+        <q-item>
+          <q-item-section avatar>
+            <q-icon name="lock" color="secondary" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-h4">Сменить пароль</q-item-label>
+            <q-item-label class="text-h5">Последнее изменение: 3 месяца назад</q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-btn size="md" color="primary" label="Изменить" icon="lock_reset" text-color="dark" padding="8px 12px" @click="showChangePasswordDialog = true"/>
+          </q-item-section>
+        </q-item>
 
-            <!-- Вкладка Безопасность -->
-            <q-tab-panel name="security">
-              <div class="text-h6 q-mb-md">Настройки безопасности</div>
-              
-              <q-list bordered class="rounded-borders">
-                <q-item>
-                  <q-item-section avatar>
-                    <q-icon name="lock" color="primary" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>Сменить пароль</q-item-label>
-                    <q-item-label caption>Последнее изменение: 3 месяца назад</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-btn 
-                      flat 
-                      color="primary" 
-                      label="Изменить" 
-                      @click="showChangePasswordDialog = true"
-                    />
-                  </q-item-section>
-                </q-item>
+        <q-separator />
 
-                <q-separator />
+        <q-item>
+          <q-item-section avatar>
+            <q-icon name="devices" color="secondary" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-h4">Активные сессии</q-item-label>
+            <q-item-label class="text-h5">1 активное устройство</q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-btn size="md" color="primary" label="Посмотреть" icon="search" text-color="dark" padding="8px 12px" @click="showChangePasswordDialog = true"/>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </div>
 
-                <q-item>
-                  <q-item-section avatar>
-                    <q-icon name="devices" color="primary" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>Активные сессии</q-item-label>
-                    <q-item-label caption>1 активное устройство</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-btn flat color="primary" label="Просмотреть" />
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-tab-panel>
+    <!-- Вкладка Техподдержка -->
+    <div v-if="currentTab === 'support'" class="tab-panel q-pa-md">
+      <div class="text-h2 q-mb-md">Информация для техподдержки</div>
+      
+      <div>
+        <div class="q-pb-md">
+          <div class="text-h5">Ridan ID</div>
+          <div class="text-h4">{{ userProfile.danfors }}</div>
+        </div>
+        <div class="q-pb-md">
+          <div class="text-h5">Место работы</div>
+          <div class="text-h4">{{ userProfile.workplace }}</div>
+        </div>
+        <div class="q-pb-md">
+          <div class="text-h5">VEDA MC</div>
+          <div class="text-h4">{{ userProfile.veda }}</div>
+        </div>
+      </div>
 
-            <!-- Вкладка Техподдержка -->
-            <q-tab-panel name="support">
-              <div class="text-h6 q-mb-md">Информация для техподдержки</div>
-              
-              <div class="support-info">
-                <div class="info-item">
-                  <div class="info-label">Danfors ID</div>
-                  <div class="info-value">{{ userProfile.danfors }}</div>
-                </div>
-                <div class="info-item">
-                  <div class="info-label">Место работы</div>
-                  <div class="info-value">{{ userProfile.workplace }}</div>
-                </div>
-                <div class="info-item">
-                  <div class="info-label">VEDA MC</div>
-                  <div class="info-value">{{ userProfile.veda }}</div>
-                </div>
-              </div>
+      <q-btn 
+        color="primary" 
+        icon="edit" 
+        label="Редактировать данные" 
+        class="q-mt-md"
+        @click="showEditSupportDialog = true"
+      />
+    </div>
 
-              <q-btn 
-                color="primary" 
-                icon="edit" 
-                label="Редактировать данные" 
-                class="q-mt-md"
-                @click="showEditSupportDialog = true"
-              />
-            </q-tab-panel>
+    <!-- Вкладка Активность -->
+    <div v-if="currentTab === 'activity'" class="tab-panel q-pa-md">
+      <div class="text-h2 q-mb-md">Последняя активность</div>
+      
+      <q-timeline color="secondary">
+        <q-timeline-entry
+          title="Новый вопрос"
+          subtitle="2 часа назад"
+          icon="help"
+        >
+          <div>Создан новый вопрос в категории "Технические проблемы"</div>
+        </q-timeline-entry>
 
-            <!-- Вкладка Активность -->
-            <q-tab-panel name="activity">
-              <div class="text-h6 q-mb-md">Последняя активность</div>
-              
-              <q-timeline color="secondary">
-                <q-timeline-entry
-                  title="Новый вопрос"
-                  subtitle="2 часа назад"
-                  icon="help"
-                >
-                  <div>Создан новый вопрос в категории "Технические проблемы"</div>
-                </q-timeline-entry>
+        <q-timeline-entry
+          title="Обновление профиля"
+          subtitle="5 дней назад"
+          icon="edit"
+        >
+          <div>Изменена контактная информация</div>
+        </q-timeline-entry>
 
-                <q-timeline-entry
-                  title="Обновление профиля"
-                  subtitle="5 дней назад"
-                  icon="edit"
-                >
-                  <div>Изменена контактная информация</div>
-                </q-timeline-entry>
-
-                <q-timeline-entry
-                  title="Вход в систему"
-                  subtitle="1 неделю назад"
-                  icon="login"
-                >
-                  <div>Успешный вход с нового устройства</div>
-                </q-timeline-entry>
-              </q-timeline>
-            </q-tab-panel>
-          </q-tab-panels>
-        </q-card>
+        <q-timeline-entry
+          title="Вход в систему"
+          subtitle="1 неделю назад"
+          icon="login"
+        >
+          <div>Успешный вход с нового устройства</div>
+        </q-timeline-entry>
+      </q-timeline>
+    </div>
+  </div>
+  <div class="q-pa-md">
+        <div class="text-h2 q-mb-md">Быстрый доступ</div>
+        <div class="row q-col-gutter-sm">
+          <div class="col-6">
+            <q-card class="link-card cursor-pointer" @click="$router.push('/support')">
+              <q-card-section class="text-center">
+                <q-icon name="help" size="lg" color="primary" />
+                <div class="text-h4 q-mt-sm">Мои вопросы</div>
+              </q-card-section>
+            </q-card>
+          </div>
+          <div class="col-6">
+            <q-card class="link-card cursor-pointer" @click="$router.push('/devices')">
+              <q-card-section class="text-center">
+                <q-icon name="devices" size="lg" color="primary" />
+                <div class="text-h4 q-mt-sm">Мои устройства</div>
+              </q-card-section>
+            </q-card>
+          </div>
+        </div>
+      </div>
+</q-card>
       </div>
     </div>
 
@@ -260,13 +245,6 @@
 </template>
 
 <script>
-import { 
-  QPage, QCard, QCardSection, QAvatar, QIcon, QBtn, 
-  QTabs, QTab, QTabPanels, QTabPanel, QSeparator,
-  QList, QItem, QItemSection, QItemLabel, QBadge,
-  QInnerLoading, QSpinnerGears, QDialog, QInput,
-  QTimeline, QTimelineEntry
-} from 'quasar'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 // Вынесем диалоги в отдельные компоненты для чистоты
@@ -363,6 +341,12 @@ export default {
   data() {
     return {
       currentTab: 'profile',
+      tabs: [
+      { name: 'profile', icon: 'person', label: 'Профиль' },
+      { name: 'security', icon: 'security', label: 'Безопасность' },
+      { name: 'support', icon: 'support', label: 'Техподдержка' },
+      { name: 'activity', icon: 'activity', label: 'Активность' }
+    ],
       showChangePasswordDialog: false,
       showEditDataDialog: false,
       showEditSupportDialog: false,
@@ -433,76 +417,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.sticky-card {
-  position: sticky;
-  top: 20px;
-}
-
-.quick-actions {
-  border-top: 1px solid #e0e0e0;
-  padding-top: 20px;
-}
-
-.contact-summary {
-  border-top: 1px solid #e0e0e0;
-  padding-top: 20px;
-}
-
-.contact-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 0;
-}
-
-.info-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.info-item {
-  padding: 12px 0;
-}
-
-.info-label {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin-bottom: 4px;
-}
-
-.info-value {
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.link-card {
-  transition: transform 0.2s, box-shadow 0.2s;
-  border-radius: 8px;
-}
-
-.link-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.quick-links {
-  border-top: 1px solid #e0e0e0;
-  padding-top: 24px;
-}
-
-.support-info {
-  max-width: 400px;
-}
-
-@media (max-width: 768px) {
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .sticky-card {
-    position: static;
-  }
-}
-</style>

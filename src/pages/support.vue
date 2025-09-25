@@ -5,40 +5,39 @@
         <q-icon name="chat" size="30px" color="dark"/>
         Чат - тех поддержка - вопросы
       </div>
-      <q-dialog v-model="handleAddQuestion">
-        <q-card class="content_popup">
-          <q-card-section>
-            <div class="content_popup_title">Добавьте вопрос</div>
-          </q-card-section>
-
-          <q-card-section>
-            
-            <q-input v-model="newQuestion.title" label="Заголовок" outlined class="content_popup_value"
-              :rules="[val => !!val || 'Обязательное поле']" />
-
-            <q-input v-model="newQuestion.time" label="Время" outlined class="content_popup_value"
-              :rules="[val => !!val || 'Обязательное поле']" />
-          </q-card-section>
-
-          <q-card-actions align="right">
-            <q-btn flat label="Закрыть" class="content_popup_info" v-close-popup />
-            <q-btn flat label="Добавить" class="content_popup_info" @click="addNewQuestion"
-              :disable="!newQuestion.title || !newQuestion.time" />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
+      <BaseDialog
+    v-model="handleAddQuestion"
+    title="Добавьте вопрос"
+    :is-valid="!!newQuestion.title && !!newQuestion.time"
+    @show="toggleDialog(true)"
+    @hide="toggleDialog(false)"
+    @confirm="addNewQuestion"
+    @cancel="resetQuestionForm"
+  >
+    <template #content>
+      <q-input 
+        v-model="newQuestion.title" 
+        label="Заголовок" 
+        class="content_popup_value"
+        :rules="[val => !!val || 'Обязательное поле']" 
+      />
+      <q-input 
+        v-model="newQuestion.time" 
+        label="Время" 
+        class="content_popup_value"
+        :rules="[val => !!val || 'Обязательное поле']" 
+      />
+    </template>
+  </BaseDialog>
     </div>
 
     <q-card class="col ">
       <q-card-section class="q-pb-none">
         <div class="flex flex-center">
-        <q-btn unelevated class="content_dv-btn-2" @click="handleAddQuestion = true">
-        <q-icon class="q-mr-md" name="mdi-chat-plus-outline" />
-        <span class="content_dv-btn-2_text">Добавить вопрос</span>
-      </q-btn>
+       <q-btn size="md" color="primary" label="Добавить вопрос" icon="mdi-chat-plus-outline" text-color="dark" padding="8px 12px" @click="handleAddQuestion = true"/>
       </div>
        </q-card-section>
-      <q-card-section class="q-bt-none">
+      <q-card-section class="q-pt-none">
         <q-list separator class="pages_list q-pa-md" v-if="questions.length > 0">
               <q-item v-for="(item, index) in questions" :key="index" class="q-pa-md" clickable v-ripple
                 @click="handleQuestionClick(item)">
@@ -63,9 +62,14 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { ref } from 'vue'
+import BaseDialog from '@/components/utilits/BaseDialog.vue'
 
 export default {
   name: 'support',
+  components: {
+    BaseDialog
+  },
+  
   computed: {
     ...mapGetters('support', {
       questions: 'dashboardQuestions'
@@ -81,6 +85,15 @@ export default {
       })
       this.newQuestion = { title: '', time: '' }
       this.handleAddQuestion = false
+    },
+
+    toggleDialog(val) {
+      document.body.style.overflow = val ? 'hidden' : ''
+      document.documentElement.style.overflow = val ? 'hidden' : ''
+    },
+
+    resetQuestionForm() {
+      this.newQuestion = { title: '', time: '' }
     }
   },
   setup() {

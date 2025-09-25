@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import drawer from '@/components/layout/Drawer2.vue'
+import drawer from '@/components/layout/Drawer.vue'
 import appFooter from '@/components/layout/Footer.vue'
 import { mapGetters, mapActions } from 'vuex'
 

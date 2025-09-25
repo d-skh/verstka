@@ -12,33 +12,33 @@
           <div class="text-h6">Default</div>
           <div>Big</div>
           <div class="q-gutter-sm q-my-md">
-            <q-btn color="accent" label="Кнопка" icon="memory" icon-right="send" padding="12px 24px"/>
-            <q-btn outline color="accent" label="Кнопка" icon="memory" icon-right="send" padding="12px 24px"/>
-            <q-btn color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="12px 24px"/>
-            <q-btn outline color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="12px 24px"/>
-            <q-btn outline color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="primary" padding="12px 24px"/>
+            <q-btn color="accent" label="Кнопка" icon="memory" icon-right="send" padding="12px 24px" @click=""/>
+            <q-btn outline color="accent" label="Кнопка" icon="memory" icon-right="send" padding="12px 24px" @click=""/>
+            <q-btn color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="12px 24px" @click=""/>
+            <q-btn outline color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="12px 24px" @click=""/>
+            <q-btn outline color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="primary" padding="12px 24px" @click=""/>
           </div>
           <div>Small</div>
           <div class="q-gutter-sm q-my-md">
-            <q-btn size="md" color="accent" label="Кнопка" icon="memory" icon-right="send" padding="8px 12px"/>
-            <q-btn size="md" outline color="accent" label="Кнопка" icon="memory" icon-right="send" padding="8px 12px"/>
-            <q-btn size="md" color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="8px 12px"/>
-            <q-btn size="md" outline color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="8px 12px"/>
+            <q-btn size="md" color="accent" label="Кнопка" icon="memory" icon-right="send" padding="8px 12px" @click=""/>
+            <q-btn size="md" outline color="accent" label="Кнопка" icon="memory" icon-right="send" padding="8px 12px" @click=""/>
+            <q-btn size="md" color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="8px 12px" @click=""/>
+            <q-btn size="md" outline color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="8px 12px" @click=""/>
           </div>
           <div class="text-h6">Disabled</div>
           <div>Big</div>
           <div class="q-gutter-sm q-my-md">
-            <q-btn disabled color="accent" label="Кнопка" icon="memory" icon-right="send" padding="12px 24px"/>
-            <q-btn disabled outline color="accent" label="Кнопка" icon="memory" icon-right="send" padding="12px 24px"/>
-            <q-btn disabled color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="12px 24px"/>
-            <q-btn disabled outline color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="12px 24px"/>
+            <q-btn disabled color="accent" label="Кнопка" icon="memory" icon-right="send" padding="12px 24px" @click=""/>
+            <q-btn disabled outline color="accent" label="Кнопка" icon="memory" icon-right="send" padding="12px 24px" @click=""/>
+            <q-btn disabled color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="12px 24px" @click=""/>
+            <q-btn disabled outline color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="12px 24px" @click=""/>
           </div>
           <div>Small</div>
           <div class="q-gutter-sm q-my-md">
-            <q-btn disabled size="md" color="accent" label="Кнопка" icon="memory" icon-right="send" padding="8px 12px"/>
-            <q-btn disabled size="md" outline color="accent" label="Кнопка" icon="memory" icon-right="send" padding="8px 12px"/>
-            <q-btn disabled size="md" color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="8px 12px"/>
-            <q-btn disabled size="md" outline color="primary" label="Кнопка" icon="memory" icon-right="send"h text-color="dark" padding="8px 12px"/>
+            <q-btn disabled size="md" color="accent" label="Кнопка" icon="memory" icon-right="send" padding="8px 12px" @click=""/>
+            <q-btn disabled size="md" outline color="accent" label="Кнопка" icon="memory" icon-right="send" padding="8px 12px" @click=""/>
+            <q-btn disabled size="md" color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="8px 12px" @click=""/>
+            <q-btn disabled size="md" outline color="primary" label="Кнопка" icon="memory" icon-right="send"h text-color="dark" padding="8px 12px" @click=""/>
           </div>
         </q-card-section>
       </q-card>

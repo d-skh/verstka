@@ -5,42 +5,42 @@
         <q-icon name="memory" size="30px" color="dark"/>
         Устройства
       </div>
-      <q-dialog v-model="handleAddQuestion">
-        <q-card class="content_popup">
-          <q-card-section>
-            <div class="content_popup_title">Добавьте устройство</div>
-          </q-card-section>
-
-          <q-card-section>
-            <!-- Поле ввода текста -->
-            <q-input v-model="newDevice.name" label="Название устройства" outlined class="content_popup_value"
-              :rules="[val => !!val || 'Обязательное поле']" />
-
-            <!-- Поле ввода числа -->
-            <q-input v-model="newDevice.status" label="Статус (например, 50%)" outlined class="content_popup_value"
-              :rules="[val => !!val || 'Обязательное поле']" />
-          </q-card-section>
-
-          <q-card-actions align="right">
-            <q-btn flat label="Закрыть" class="content_popup_info" v-close-popup />
-            <q-btn flat label="Добавить" class="content_popup_info" @click="addNewDevice"
-              :disable="!newDevice.name || !newDevice.status" />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
+      <BaseDialog
+    :value="handleAddDevice"
+    @input="handleAddDevice = $event"
+    title="Добавьте устройство"
+    :is-valid="!!newDevice.name && !!newDevice.status"
+    @show="toggleDialog(true)"
+    @hide="toggleDialog(false)"
+    @confirm="addNewDevice"
+    @cancel="resetDeviceForm"
+  >
+    <template #content>
+      <q-input 
+        v-model="newDevice.name" 
+        label="Название устройства" 
+        class="content_popup_value"
+        :rules="[val => !!val || 'Обязательное поле']" 
+      />
+      <q-input 
+        v-model="newDevice.status" 
+        label="Статус (например, 50%)" 
+        class="content_popup_value" 
+        :rules="[val => !!val || 'Обязательное поле']" 
+      />
+    </template>
+  </BaseDialog>
     </div>
 
     
-    <q-card class="col q-bt-none">
+    <q-card class="col q-pt-none">
       <q-card-section class="q-pb-none">
+        
         <div class="flex flex-center">
-        <q-btn unelevated class="content_dv-btn-2" @click="handleAddQuestion = true">
-        <q-icon class="q-mr-md" name="add" />
-        <span class="content_dv-btn-2_text">Добавить устройство</span>
-      </q-btn>
+        <q-btn size="md" color="primary" label="Добавить устройство" icon="add" text-color="dark" padding="8px 12px" @click="handleAddDevice = true"/>
       </div>
       </q-card-section>
-      <q-card-section class="">
+      <q-card-section class="q-pt-none">
         <q-list dense separator class="pages_list q-pa-md" v-if="devices.length > 0">
           <q-item v-for="(item, index) in devices" :key="index" class="text-h4" clickable v-ripple>
             <q-item-section>{{ item.label }}</q-item-section>
@@ -60,9 +60,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { ref } from 'vue'
+import BaseDialog from '@/components/utilits/BaseDialog.vue'
 
 export default {
   name: 'Devices',
+  components: {
+    BaseDialog
+  },
   computed: {
     ...mapGetters('devices', {
       devices: 'dashboardDevices'
@@ -77,18 +81,27 @@ export default {
         status: this.newDevice.status
       })
       this.newDevice = { name: '', status: '' }
-      this.handleAddQuestion = false
+      this.handleAddDevice = false
+    },
+
+    resetDeviceForm() {
+      this.newDevice = { name: '', status: '' }
+    },
+
+    toggleDialog(val) {
+      document.body.style.overflow = val ? 'hidden' : ''
+      document.documentElement.style.overflow = val ? 'hidden' : ''
     }
   },
   setup() {
-    const handleAddQuestion = ref(false)
+    const handleAddDevice = ref(false)
     const newDevice = ref({
       name: '',
       status: ''
     })
 
     return {
-      handleAddQuestion,
+      handleAddDevice,
       newDevice
     }
   }

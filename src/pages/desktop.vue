@@ -15,9 +15,7 @@
 
                 <div class="row items-center justify-between">
                   <div><q-icon size="sm" outlined name="mdi-chat" class="q-pr-sm" />Вопросы</div>
-                  
-                  <q-btn icon="mdi-chat-plus-outline"  unelevated
-                    class="content_chat-btn" @click="handleAddQuestion = true" />
+                  <q-btn size="md" color="primary" label="" icon="mdi-chat-plus-outline" text-color="dark" padding="8px 12px" @click="handleAddQuestion = true"/>
                 </div>
                 <BaseDialog
     v-model="handleAddQuestion"
@@ -126,10 +124,7 @@
               <div>У вас пока нет добавленных устройств</div>
             </div>
             <div class="row justify-center">
-              <q-btn unelevated class="content_dv-btn-2 q-mt-lg" @click="handleAddDevice = true">
-                <q-icon class="q-mr-md" name="add" />
-                <span class="content_dv-btn-2_text">Добавить устройство</span>
-              </q-btn>
+              <q-btn class="q-mt-lg" size="md" color="primary" label="Добавить устройство" icon="add" text-color="dark" padding="8px 12px" @click="handleAddDevice = true"/>
               <BaseDialog
     :value="handleAddDevice"
     @input="handleAddDevice = $event"

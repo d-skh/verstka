@@ -15,20 +15,10 @@
       </q-card-section>
 
       <q-card-actions align="right" class="q-pr-md q-pt-none">
-        <q-btn 
-          flat 
-          label="Закрыть" 
-          class="content_popup_negative" 
-          v-close-popup 
-          @click="$emit('cancel')"
-        />
-        <q-btn 
-          flat 
-          label="Добавить" 
-          class="content_popup_positive" 
-          :disable="!isValid"
-          @click="$emit('confirm')"
-        />
+        <q-btn v-close-popup outline size="md" text-color="dark" label="Закрыть" padding="8px 12px" @click="$emit('cancel')"/>
+
+        <q-btn :disable="!isValid" size="md" color="accent" label="Добавить" padding="8px 12px" @click="$emit('confirm')"/>
+
       </q-card-actions>
     </q-card>
   </q-dialog>
