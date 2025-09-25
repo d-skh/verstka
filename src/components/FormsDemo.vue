@@ -1,4 +1,4 @@
-<template>
+<template><q-page>
   <div>
     <q-page-header>
       <q-toolbar-title>Демонстрация форм</q-toolbar-title>
@@ -185,7 +185,7 @@
         </q-card-section>
       </q-card>
     </div>
-  </div>
+  </div></q-page>
 </template>
 
 <script>

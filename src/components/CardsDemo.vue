@@ -1,4 +1,4 @@
-<template>
+<template> <q-page>
   <div>
     <q-page-header>
       <q-toolbar-title>Демонстрация карточек</q-toolbar-title>
@@ -192,6 +192,7 @@
       </q-card>
     </div>
   </div>
+  </q-page>
 </template>
 
 <script>

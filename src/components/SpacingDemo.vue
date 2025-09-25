@@ -1,4 +1,4 @@
-<template>
+<template><q-page>
   <div class="spacing-demo">
     <div class="rem-settings">
       <label>
@@ -48,6 +48,7 @@
       </div>
     </div>
   </div>
+  </q-page>
 </template>
 
 <script>

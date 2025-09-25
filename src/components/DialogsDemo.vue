@@ -1,4 +1,4 @@
-<template>
+<template><q-page>
   <div>
     <q-page-header>
       <q-toolbar-title>Демонстрация диалогов</q-toolbar-title>
@@ -204,7 +204,7 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-  </div>
+  </div></q-page>
 </template>
 
 <script>

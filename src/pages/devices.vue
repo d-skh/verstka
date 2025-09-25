@@ -1,7 +1,7 @@
 <template>
   <q-page class="column content_page">
     <div class="row no-wrap justify-between items-center">
-      <div class="content_title q-mb-md">
+      <div class="text-h1 q-mb-md">
         <q-icon name="memory" size="30px" color="dark"/>
         Устройства
       </div>
@@ -31,10 +31,10 @@
     </div>
 
     
-    <q-card flat class="col content_page_card q-bt-none">
+    <q-card class="col q-bt-none">
       <q-card-section class="q-pb-none">
         <div class="flex flex-center">
-        <q-btn unelevated class="content_dv-btn-2_mobile" @click="handleAddQuestion = true">
+        <q-btn unelevated class="content_dv-btn-2" @click="handleAddQuestion = true">
         <q-icon class="q-mr-md" name="add" />
         <span class="content_dv-btn-2_text">Добавить устройство</span>
       </q-btn>
@@ -42,7 +42,7 @@
       </q-card-section>
       <q-card-section class="">
         <q-list dense separator class="pages_list q-pa-md" v-if="devices.length > 0">
-          <q-item v-for="(item, index) in devices" :key="index" class="content_orders-contracts" clickable v-ripple>
+          <q-item v-for="(item, index) in devices" :key="index" class="text-h4" clickable v-ripple>
             <q-item-section>{{ item.label }}</q-item-section>
             <q-item-section class="text-right">{{ item.value }}</q-item-section>
           </q-item>

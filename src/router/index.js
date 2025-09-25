@@ -6,6 +6,6 @@ Vue.use(Router)
 
 // ПРОСТО ЭКСПОРТИРУЙТЕ ИНСТАНС РОУТЕРА
 export default new Router({
-  mode: 'hash', // явно укажите mode
+  mode: 'history', // явно укажите mode
   routes
 })

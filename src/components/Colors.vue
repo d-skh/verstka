@@ -1,4 +1,4 @@
-<template>
+<template> <q-page>
   <div>
     <q-page-header>
       <q-toolbar-title>Основная палитра</q-toolbar-title>
@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div></q-page>
 </template>
 
 <script>

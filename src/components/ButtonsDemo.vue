@@ -1,10 +1,49 @@
-<template>
+<template> <q-page>
   <div>
     <q-page-header>
       <q-toolbar-title>Демонстрация кнопок</q-toolbar-title>
     </q-page-header>
 
     <div class="q-gutter-md">
+
+      <q-card>
+        <q-card-section>
+          <div class="text-h5">Veda Buttons</div>
+          <div class="text-h6">Default</div>
+          <div>Big</div>
+          <div class="q-gutter-sm q-my-md">
+            <q-btn color="accent" label="Кнопка" icon="memory" icon-right="send" padding="12px 24px"/>
+            <q-btn outline color="accent" label="Кнопка" icon="memory" icon-right="send" padding="12px 24px"/>
+            <q-btn color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="12px 24px"/>
+            <q-btn outline color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="12px 24px"/>
+            <q-btn outline color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="primary" padding="12px 24px"/>
+          </div>
+          <div>Small</div>
+          <div class="q-gutter-sm q-my-md">
+            <q-btn size="md" color="accent" label="Кнопка" icon="memory" icon-right="send" padding="8px 12px"/>
+            <q-btn size="md" outline color="accent" label="Кнопка" icon="memory" icon-right="send" padding="8px 12px"/>
+            <q-btn size="md" color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="8px 12px"/>
+            <q-btn size="md" outline color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="8px 12px"/>
+          </div>
+          <div class="text-h6">Disabled</div>
+          <div>Big</div>
+          <div class="q-gutter-sm q-my-md">
+            <q-btn disabled color="accent" label="Кнопка" icon="memory" icon-right="send" padding="12px 24px"/>
+            <q-btn disabled outline color="accent" label="Кнопка" icon="memory" icon-right="send" padding="12px 24px"/>
+            <q-btn disabled color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="12px 24px"/>
+            <q-btn disabled outline color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="12px 24px"/>
+          </div>
+          <div>Small</div>
+          <div class="q-gutter-sm q-my-md">
+            <q-btn disabled size="md" color="accent" label="Кнопка" icon="memory" icon-right="send" padding="8px 12px"/>
+            <q-btn disabled size="md" outline color="accent" label="Кнопка" icon="memory" icon-right="send" padding="8px 12px"/>
+            <q-btn disabled size="md" color="primary" label="Кнопка" icon="memory" icon-right="send" text-color="dark" padding="8px 12px"/>
+            <q-btn disabled size="md" outline color="primary" label="Кнопка" icon="memory" icon-right="send"h text-color="dark" padding="8px 12px"/>
+          </div>
+        </q-card-section>
+      </q-card>
+
+
       <q-card>
         <q-card-section>
           <div class="text-h6">Основные кнопки</div>
@@ -105,6 +144,7 @@
       </q-card>
     </div>
   </div>
+  </q-page>
 </template>
 
 <script>

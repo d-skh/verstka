@@ -1,61 +1,43 @@
 // app global css in SCSS form
 @import './quasar.variables.scss';
-.q-timeline__title {
-  font-size: 1rem;
+
+// Mixins для повторяющихся стилей
+@mixin open-sans($weight: 400, $size: 14px, $color: $secondary) {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: $weight;
+  font-style: normal;
+  font-size: $size;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: $color;
 }
 
-.q-drawer {
-    position: fixed;
-    max-height: 98vh;
-    @media (max-width: 599px) {
-    .q-drawer {
-        max-height: auto;
-    }
-}
+@mixin flex-center {
+  display: flex;
+  align-items: center;
 }
 
-/* Для мобильных устройств (ширина экрана до 768px) */
+.text-h1 {
+  @include open-sans(700, 24px, $dark);
+}
 
+.text-h2 {
+  @include open-sans(600, 20px, $secondary);
+}
 
-.q-toolbar{
+.text-h3 { @include open-sans(700, 16px, $secondary); }
+
+.text-h4 { @include open-sans(400, 14px, $secondary); }
+
+.text-h5 { @include open-sans(300, 12px, $secondary); }
+
+// Общие стили
+.q-timeline__title { font-size: 1rem; }
+
+.q-toolbar {
   min-height: 50px;
   margin-bottom: -70px;
   z-index: 100;
-}
-
-
-.q-drawer .q-item {
-  transition: none !important;
-}
-
-.q-scroll-area {
-  background-color: $icons;
-}
-
-.profile {
-  background-color: $menu_active;
-  border-radius: 24px;
-  border: $primary 1px solid;
-}
-
-.q-drawer .q-item__section--avatar {
-  transition: none !important;
-}
-
-.q-drawer .q-focus-helper {
-  display: none !important;
-}
-
-.q-layout {
-background-color: $drawer_active;
-}
-
-.q-dialog__backdrop {
-  backdrop-filter: blur(2px);
-  position: absolute !important;
-  height: 100vh;
-  width: 100vw;
-  position: fixed !important;
 }
 
 .q-header {
@@ -63,96 +45,129 @@ background-color: $drawer_active;
   height: 50px;
   border: $primary solid 1px;
   background-color: $primary;
+  box-shadow: 0 10px 6px rgba(0, 0, 0, 0.01);
 }
 
-.q-card {
-  height: 100%;
+.q-layout { background-color: $drawer_active; }
+.q-card { height: 100%; border: $primary solid 1px; border-radius: 24px; box-shadow: 0 10px 6px rgba(0, 0, 0, 0.01); }
+.q-field--outlined .q-field__control {border-radius: 10px !important;}
+.q-dialog { 
+  
+
+.dialog_popup{
+  width: 70vw;
+  max-height: none !important;
+  height: auto;
+  border-radius: 24px;
+  border: $primary solid 1px;
+  box-shadow: none !important;
+}
 }
 
+// Drawer стили
 .q-drawer {
+  @include open-sans;
+  position: fixed;
+  max-height: 98vh;
   border: $primary solid 1px;
   border-radius: 24px;
   margin: 10px;
+
+  .q-item {
+    padding: 5px 0;
+    min-height: auto;
+    transition: none !important;
+    
+    &--active {
+      @include open-sans(700, 14px, $dark);
+      background-color: $drawer_active;
+      border-radius: 8px;
+    }
+
+  }
+
+  .q-focus-helper { display: none !important; }
+
+  @media (max-width: 599px) {
+    max-height: auto;
+  }
 }
 
-
-* {
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+.q-drawer--mini {
+  
+  
+  .q-slide-transition { display: none !important; }
+  .menu-dropdown { display: none !important; }
+  .q-pl-xl { display: none !important; }
+  .q-item__section--avatar:hover {
+    box-shadow: none !important;
+    transform: scale(1.1) !important;
+  }
 }
 
-html,
-body {
-  margin: 0px;
-  height: 100%;
-  overflow-x: hidden;
-  scrollbar-width: none; /* Для Firefox */
-  -ms-overflow-style: none; /* Для IE/Edge */
+// Scroll areas
+.q-scroll-area { background-color: $icons; }
 
+.scroll {
   &::-webkit-scrollbar {
-  display: none; /* Для Chrome, Safari, Opera */
-}
-  /*
-   // Блокируем горизонтальный скролл
-  width: 100%;
-  max-width: 100%; */
-}
-
-button:focus-visible {
-  outline: 2px solid #4a90e2 !important;
-  outline: -webkit-focus-ring-color auto 5px !important;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
+    width: 8px;
+    background: rgba(0, 0, 0, 0.00);
+    
+    &-track { background: transparent !important; }
+    &-thumb {
+      background: $primary !important;
+      border-radius: 4px !important;
+      height: 80px !important;
+      max-height: 80px !important;
+      transition: background 0.3s;
+      
+      &:hover { background: $secondary; }
+    }
+  }
 }
 
-.rotate-180 {
-  transform: rotate(180deg);
-  transition: transform 0.3s;
-}
+.scroll_questions_list { max-height: 70vh; overflow-y: auto; }
+.scroll_devices_list { max-height: 60vh; overflow-y: auto; }
 
-.menu-dropdown {
-  text-align: right;
-  /*border-left: 1px solid $primary;
-  border-right: 1px solid $primary;*/
-  border-top: 1px solid $primary;
-  border-bottom: 1px solid $primary;
-  border-radius: 0 0 4px 4px;
-  margin-top: -1px;
-  /* убираем двойную границу */
+// Компоненты
+.profile {
   background-color: $menu_active;
+  border-radius: 24px;
+  border: $primary 1px solid;
 }
 
-.drawer-close-container {
-  position: absolute;
-  top: 15px;
-  right: -13px;
+.drawer_scrolling {
+  max-height: 73vh;
+  overflow-y: auto;
+  
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: rgba(0, 0, 0, 0.00);
+  }
 }
 
-
+// Кнопки и иконки
 .drawer-close-btn {
+  @include flex-center;
   color: $secondary !important;
   background-color: $menu_active !important;
-  border: 1px solid $icons;
-  border-radius: 25px;
-  min-width: 25px !important;
-  min-height: 25px !important;
-  width: 25px !important;
-  height: 25px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+  border-radius: 23px;
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  min-height: 22px !important;
   padding: 0 !important;
   margin: 0 !important;
   transition: all 0.3s ease !important;
 
   &:hover {
     box-shadow: none !important;
-    background-color: darken($primary, 10%) !important;
     transform: scale(1.1) !important;
   }
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
 .absolute-top-right {
@@ -163,508 +178,152 @@ a {
 }
 
 .q-btn {
-  text-transform: none !important;
+    @include open-sans(700, 16px, $secondary); 
+    text-transform: none !important; 
+    border-radius: 6px; 
+    box-shadow: none !important;
 }
 
-.drawer_scrolling{
-  max-height: 73vh;
-  overflow-y: auto;
+.q-btn:not(.q-btn--flat):not(.q-btn--unelevated) {
+    box-shadow: none !important;
+}
 
-    &::-webkit-scrollbar {
-    width: 0px;
-    background:
-      rgba(0, 0, 0, 0.00);
+.q-btn__wrapper { min-width: auto !important; min-height: auto !important; box-shadow: none !important;}
+.q-btn__wrapper:before {
+   box-shadow: none !important;
+}
+
+// Текстовые стили
+.header {
+  &_logo {
+    @include open-sans(700, 16px, $secondary);
+    display: inline-block;
   }
-}
-
-.drawer {
-  font-family: 'Open Sans', sans-serif;
-  /* Указанный шрифт */
-  font-weight: 400;
-  /* Regular */
-  font-style: normal;
-  /* Без наклона */
-  font-size: 14px;
-  /* Размер текста */
-  line-height: 1.5;
-  /* 150% (14px * 1.5 = 21px) */
-  letter-spacing: -0.02em;
-  color: $secondary;
-  padding-left: 13px;
-  padding-right: 13px;
-  padding-bottom: 13px;
-}
-
-.vdh {
-  font-family: 'Open Sans', sans-serif;
-  /* Указанный шрифт */
-  font-weight: 400;
-  /* Regular */
-  font-style: normal;
-  /* Без наклона */
-  font-size: 14px;
-  /* Размер текста */
-  line-height: 1.5;
-  /* 150% (14px * 1.5 = 21px) */
-  letter-spacing: -0.02em;
-  color: $secondary;
-  padding: 5px;
-
-}
-
-.q-item--active {
-  background-color: $drawer_active;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 700;
-  font-style: bold;
-  font-size: 14px;
-  line-height: 150%;
-  letter-spacing: -0.02em;
-  /* -2% от размера шрифта */
-  color: $dark !important;
-  border-radius: 8px;
-  /* Стандартное скругление */
-}
-
-.header_logo {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 700;
-  font-style: normal;
-  font-size: 16px;
-  letter-spacing: -0.02em;
-  /* -2% */
-  color: $secondary;
-  /* Основная палитра/Текст/secondary */
-  display: inline-block;
-  /* Для строчных элементов */
-}
-
-.header_emblema {
-  transform: scale(0.75);
+  
+  &_emblema {
+    min-width: auto;
+    img { width: 22px; height: 22px; }
+  }
 }
 
 .q-footer {
-  /*
-  border: $icons;
-  background-color: $drawer_active; */
-  margin-left: 40px;
-  margin-right: 40px;
-  margin-bottom: 10px;
+  margin: 0 40px 10px;
   border-radius: 24px;
   border: $primary solid 1px;
   background-color: $primary;
+  box-shadow: 0 10px 6px rgba(0, 0, 0, 0.01);
+
+  &_logo_container { @include flex-center; gap: 2px; }
+  &_emblema { transform: scale(0.6); }
+  &_logo { @include open-sans(700, 16px, $secondary); }
+  &_projects { @include open-sans(400, 14px, $secondary); text-decoration: underline; }
+  &_geo, &_rights { @include open-sans(400, 12px, $secondary); }
+
   @media (max-width: 599px) {
     margin-left: 20px;
     margin-right: 20px;
-
-}
 }
 
-.footer_logo_container {
-  display: flex;
-  align-items: center;
-  /* Вертикальное выравнивание по центру */
-  gap: 2px;
-  /* Расстояние между иконкой и текстом */
 }
 
-.footer_emblema {
-  transform: scale(0.6);
-}
+.user_name { @include open-sans(400, 16px, $secondary); }
 
-.footer_logo {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 700;
-  font-style: normal;
-  font-size: 16px;
-  line-height: 1.5;
-  /* 150% */
-  letter-spacing: -0.02em;
-  /* -2% */
-  color: $secondary;
-  /* Основная палитра/Текст/secondary */
-  /* Horizontal align: Center */
-  display: inline-block;
-  /* Для строчных элементов */
-}
-
-.footer_titles {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 700;
-  font-style: normal;
-  font-size: 16px;
-  line-height: 150%;
-  letter-spacing: -0.32px;
-  /* -2% от 16px = -0.32px */
-  color: $secondary;
-}
-
-.footer_projects {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 14px;
-  line-height: 150%;
-  /* 21px */
-  letter-spacing: -0.28px;
-  /* -2% от 14px */
-  color: $secondary;
-  text-decoration: underline;
-  text-decoration-style: solid;
-  text-underline-offset: 2.66px;
-  /* 19% от 14px */
-  text-decoration-thickness: 0.7px;
-  /* 5% от 14px */
-}
-
-.footer_geo {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 12px;
-  line-height: 1.5;
-  /* 150% от размера шрифта */
-  letter-spacing: -0.02em;
-  /* -2% от размера шрифта */
-  color: $secondary;
-}
-
-
-.footer_rights {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 12px;
-  line-height: 1.5;
-  /* 150% */
-  letter-spacing: -0.02em;
-  /* -2% */
-  color: $secondary;
-  /* Основная палитра/Текст/secondary */
-  margin: 0 auto;
-  /* Для блочных элементов */
-  display: inline-block;
-  /* Для строчных элементов */
-}
-
-
-.user_name {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 16px;
-  line-height: 150%;
-  /* или 1.5 */
-  letter-spacing: -0.02em;
-  /* -2% от размера шрифта */
-  color: $secondary;
-}
-
-.content_page {
-  padding: 40px;
+// Content стили
+.q-page {
+  margin: 40px;
   background: $drawer_active;
+  
   @media (max-width: 599px) {
-    padding: 20px;
-}
-}
-
-.content_page_card {
-  border: $primary solid 1px;
-  border-radius: 24px;
+    margin: 20px 20px 40px;
+  }
 }
 
-.content_page_card_avatar {
-  min-width: 0;
-  padding-right: 8px;
-}
-
-
-.content_title {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 700;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1.5;
-  /* 150% */
-  letter-spacing: -0.48px;
-  /* 24px * -0.02 = -0.48px */
-  color: $dark;
-  vertical-align: middle;
-  /* Сбрасываем стандартные отступы */
-  padding: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  /* Количество строк */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.content_card_title {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 20px;
-  line-height: 150%;
-  letter-spacing: -2%;
-  vertical-align: middle;
-  color: $secondary;
-  -webkit-line-clamp: 1;
-  /* Количество строк */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.content_popup_title {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 20px;
-  line-height: 150%;
-  letter-spacing: -2%;
-  vertical-align: middle;
-  text-align: center;
-  color: $secondary;
-}
-
-.content_chat-btn {
-  border-radius: 20px;
-  width: 50px;
-  height: 36px;
-  min-width: 50px;
-  min-height: 36px;
-  padding: 0;
-  box-shadow: none !important;
-  background-color: $primary;
-  color: $secondary;
-}
-
-.content_questions_title {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 14px;
-  line-height: 150%;
-  letter-spacing: -2%;
-  color: $dark;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  /* Количество строк */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  line-height: 1.5;
-  /* Как в вашем макете */
-}
-
-.content_questions_time {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 12px;
-  line-height: 150%;
-  letter-spacing: -0.02em;
-  color: $secondary;
-  vertical-align: middle;
-}
-
-.content_questions_icons {
-  color: $icons;
-}
-
-.toolbar_button {
+.content {
   
-  // color="secondary"
-  color: $secondary !important;
-
-
-
-}
-.scroll {
-
-  &::-webkit-scrollbar {
-    width: 8px;
-    background:
-      rgba(0, 0, 0, 0.00);
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent !important;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $primary !important;
-    border-radius: 4px !important;
-    height: 80px !important;
-    max-height: 80px !important;
-    transition: background 0.3s;
-    position: relative;
-    top: 0;
-  }
-
-  &:hover::-webkit-scrollbar-thumb {
-    background: $secondary;
-  }
-}
-
-.scroll_questions_list {
-  max-height: 450px;
-  overflow-y: auto;
+  &_card_title, &_popup_title { @include open-sans(600, 20px, $secondary); }
+  &_questions_title { @include open-sans(400, 14px, $dark); }
+  &_questions_icons { color: $icons; }
+  &_questions_time { @include open-sans(400, 12px, $secondary); }
+  &_orders-contracts_last {@include open-sans(700, 14px, $secondary); }
+  &_popup_value { @include open-sans(400, 16px, $secondary); }
+  &_popup_negative { @include open-sans(400, 16px, $negative); border: 1px solid $negative; border-radius: 8px; padding: 0.3em 0.4em }
+  &_popup_positive { @include open-sans(400, 16px, $secondary); border: 1px solid $secondary; border-radius: 8px; padding: 0.3em 0.4em }
   
+  &_chat-btn, &_dv-btn-1, &_dv-btn-2 {
+    border-radius: 20px;
+    padding: 0;
+    box-shadow: none !important;
+    
+    &_text { @include open-sans(400, 14px); }
+  }
+  
+  &_chat-btn {
+    width: 50px; height: 36px;
+    background-color: $primary;
+    color: $secondary;
+  }
+  
+  &_dv-btn-1 { width: 180px; height: 36px; }
+  &_dv-btn-2 { 
+    width: 220px; height: 36px; 
+    background-color: $primary;
+    color: $secondary;
+    
+    &_mobile { width: 95%; }
+  }
 }
 
-.pages_list {
-  /*
-  height: 60vh !important;
-  overflow-y: auto; */
+
+
+.toolbar_button { color: $secondary !important; }
+
+// Утилиты
+.rotate-180 {
+  transform: rotate(180deg);
+  transition: transform 0.3s;
 }
 
-.scroll_devices_list {
-  max-height: 400px;
-  overflow-y: auto;
+.logout { color: $negative !important; }
+
+.menu-dropdown {
+  text-align: right;
+  border-radius: 0 0 4px 4px;
+  margin-top: -1px;
 }
 
-.content_orders-contracts {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 14px;
-  line-height: 150%;
-  letter-spacing: -0.02em;
-  /* -2% конвертировано в em */
-  color: $secondary;
-  /* Исправленный hex-код (было 6C75TD) */
-  vertical-align: middle;
-  -webkit-line-clamp: 1;
-  /* Количество строк */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.drawer-close-container {
+  position: absolute;
+  top: 15px;
+  right: -13px;
 }
 
-.content_popup_value {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 16px;
-  letter-spacing: -0.02em;
-  /* -2% конвертировано в em */
-  color: $secondary;
+.drawer-vdh-container {
+  padding: 16px 0 !important;
+  border-bottom: $primary 1px solid;
 }
 
-.content_orders-contracts_last {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-  font-size: 14px;
-  line-height: 150%;
-  letter-spacing: -0.02em;
-  /* -2% конвертировано в em */
-  color: $secondary;
-  /* Исправленный hex-код (было 6C75TD) */
-  vertical-align: middle;
+// Глобальные стили
+* {
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
 }
 
-.content_dv-btn-1 {
-  border-radius: 20px;
-  width: 180px;
-  height: 36px;
-  min-width: 50px;
-  min-height: 36px;
-  padding: 0;
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  
+  &::-webkit-scrollbar { display: none; }
 }
 
-.content_dv-btn-1_text {
-  border-radius: 20px;
-  font-family: "Open Sans", sans-serif;
-  /* Шрифт */
-  font-weight: 400;
-  /* Насыщенность */
-  font-style: normal;
-  /* Стиль */
-  font-size: 14px;
-  /* Размер */
-  line-height: 150%;
-  /* Межстрочный интервал */
-  letter-spacing: -0.02em;
-  /* Кернинг (-2% конвертировано в em) */
-  color: $dark;
-  /* Цвет текста */
-  vertical-align: middle;
-  /* Вертикальное выравнивание */
+button:focus-visible {
+  outline: 2px solid #4a90e2 !important;
+  outline: -webkit-focus-ring-color auto 5px !important;
 }
 
-.content_dv-btn-2 {
-  width: 220px;
-  height: 36px;
-  min-width: 220px;
-  min-height: 36px;
-  border-radius: 20px;
-  padding: 0;
-  color: $secondary;
-  background-color: $primary;
-}
-
-.content_dv-btn-2_mobile {
-  width: 95%;
-  height: 36px;
-  min-width: 220px;
-  min-height: 36px;
-  border-radius: 20px;
-  padding: 0;
-  color: $secondary;
-  background-color: $primary;
-}
-
-.content_dv-btn-2_text {
-  font-family: "Open Sans", sans-serif;
-  /* Шрифт */
-  font-weight: 400;
-  /* Насыщенность */
-  font-style: normal;
-  /* Стиль */
-  font-size: 14px;
-  /* Размер */
-  line-height: 150%;
-  /* Межстрочный интервал */
-  letter-spacing: -0.02em;
-  /* Кернинг (-2% конвертировано в em) */
-  color: $secondary;
-  /* Цвет текста */
-  vertical-align: middle;
-  border-radius: 10px;
-  /* Вертикальное выравнивание */
-}
-
-.content_popup {
-  max-height: 310px !important;
-  min-width: 300px;
-  box-shadow: none !important;
-  border-radius: 16px !important;
-}
-
-.content_popup_info {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 16px;
-  letter-spacing: -0.02em;
-  /* -2% конвертировано в em */
-  color: $secondary;
-  /* Исправленный hex-код (было 6C75TD) */
-}
-
-.content_devices_empty-state {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 14px;
-  line-height: 150%;
-  letter-spacing: -0.02em;
-  /* Эквивалент -2% */
-  color: #6C757D;
-  /* Исправленный hex-код (вместо 8G75/D) */
-  text-align: center;
-  /* Горизонтальное выравнивание */
-  vertical-align: middle;
-  /* Вертикальное выравнивание */
-  padding: 40px;
-  /* Добавил для лучшего отображения */
+a {
+  color: inherit;
+  text-decoration: none;
 }

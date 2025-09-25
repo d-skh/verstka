@@ -14,8 +14,20 @@ import './css/app.scss' // ← ДОБАВЬТЕ ЭТУ СТРОКУ
 Vue.use(Quasar, {
   config: {
     brand: {
+      primary: '#DEE2E6',
+      secondary: '#6C757D',
+      accent: '#C9060A',
+      
+      dark: '#212529',
+      
+      positive: '#21BA45',
+      negative: '#C10015',
+      info: '#31CCEC',
+      warning: '#F2C037'
     }
-  }
+  },
+  plugins: {},
+  iconSet: 'material-symbols-outlined'
 })
 
 Vue.config.productionTip = false

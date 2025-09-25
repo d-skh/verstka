@@ -1,7 +1,7 @@
 <template>
   <q-page class="column content_page">
     <div class="row no-wrap justify-between items-center">
-      <div class="content_title q-mb-md">
+      <div class="text-h1 q-mb-md">
         <q-icon name="chat" size="30px" color="dark"/>
         Чат - тех поддержка - вопросы
       </div>
@@ -29,10 +29,10 @@
       </q-dialog>
     </div>
 
-    <q-card flat class="col content_page_card ">
+    <q-card class="col ">
       <q-card-section class="q-pb-none">
         <div class="flex flex-center">
-        <q-btn unelevated class="content_dv-btn-2_mobile" @click="handleAddQuestion = true">
+        <q-btn unelevated class="content_dv-btn-2" @click="handleAddQuestion = true">
         <q-icon class="q-mr-md" name="mdi-chat-plus-outline" />
         <span class="content_dv-btn-2_text">Добавить вопрос</span>
       </q-btn>
@@ -46,8 +46,8 @@
                   <q-icon name="account_circle" size="50px" class="content_questions_icons" />
                 </q-item-section>
                 <q-item-section>
-                  <q-item-label class="content_questions_title">{{ item.title }}</q-item-label>
-                  <q-item-label caption class="content_questions_time">{{ item.time }}</q-item-label>
+                  <q-item-label class="text-h4">{{ item.title }}</q-item-label>
+                  <q-item-label caption class="text-h5">{{ item.time }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
