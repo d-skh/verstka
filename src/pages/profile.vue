@@ -54,18 +54,22 @@
       <div class="col-12 col-md-8">
         <q-card>
   <!-- Кастомные табы -->
-  <div class="custom-tabs">
-    <div 
-      v-for="tab in tabs" 
-      :key="tab.name"
-      class="custom-tab text-h3 q-pa-md"
-      :class="{ 'active': currentTab === tab.name }"
-      @click="currentTab = tab.name"
-    >
-      <q-icon :name="tab.icon" class="q-mr-sm" />
-      {{ tab.label }}
-    </div>
-  </div>
+          <div class="custom-tabs" ref="tabsContainer">
+            <div 
+              v-for="tab in tabs" 
+              :key="tab.name"
+              class="custom-tab text-h3 q-pa-md"
+              :class="{ 'active': currentTab === tab.name }"
+              @click="currentTab = tab.name"
+            >
+              <q-icon 
+                :name="tab.icon" 
+                class="q-mr-sm tab-icon"
+                :style="{ fontSize: containerWidth <657 ? '2rem' : '1.5rem' }"
+              />
+              <span v-if="containerWidth >= 657" class="tab-label">{{ tab.label }}</span>
+            </div>
+          </div>
 
   <q-separator />
 
@@ -150,27 +154,22 @@
           <div class="text-h4">{{ userProfile.veda }}</div>
         </div>
       </div>
-
-      <q-btn 
-        color="primary" 
-        icon="edit" 
-        label="Редактировать данные" 
-        class="q-mt-md"
-        @click="showEditSupportDialog = true"
-      />
+<q-btn class="q-mt-md" size="md" color="primary" label="Редактировать данные" icon="edit" text-color="dark" padding="8px 12px" @click="showEditSupportDialog = true"/>
+      
     </div>
 
     <!-- Вкладка Активность -->
     <div v-if="currentTab === 'activity'" class="tab-panel q-pa-md">
       <div class="text-h2 q-mb-md">Последняя активность</div>
       
+      <div class="timeline_list">
       <q-timeline color="secondary">
         <q-timeline-entry
           title="Новый вопрос"
           subtitle="2 часа назад"
           icon="help"
         >
-          <div>Создан новый вопрос в категории "Технические проблемы"</div>
+          <div class="text-h5">Создан новый вопрос в категории "Технические проблемы"</div>
         </q-timeline-entry>
 
         <q-timeline-entry
@@ -178,7 +177,7 @@
           subtitle="5 дней назад"
           icon="edit"
         >
-          <div>Изменена контактная информация</div>
+          <div class="text-h5">Изменена контактная информация</div>
         </q-timeline-entry>
 
         <q-timeline-entry
@@ -186,9 +185,9 @@
           subtitle="1 неделю назад"
           icon="login"
         >
-          <div>Успешный вход с нового устройства</div>
+          <div class="text-h5">Успешный вход с нового устройства</div>
         </q-timeline-entry>
-      </q-timeline>
+      </q-timeline></div>
     </div>
   </div>
   <div class="q-pa-md">
@@ -216,204 +215,286 @@
       </div>
     </div>
 
-    <!-- Индикатор загрузки -->
-    <q-inner-loading :showing="isLoading">
-      <q-spinner-gears size="50px" color="primary" />
-    </q-inner-loading>
+    <!-- Индикатор загрузки 
+    <q-inner-loading :showing="isLoading" class="fixed-full z-top custom-loading">
+      <q-spinner-gears size="50px" color="secondary" />
+    </q-inner-loading>  
+    
+    -->
+    
 
-    <!-- Диалоги (остаются без изменений) -->
-    <ChangePasswordDialog 
-      v-model="showChangePasswordDialog"
-      @submit="changePassword"
-      @hide="resetPasswordForm"
+<!-- Диалог изменения пароля -->
+<BaseDialog
+  v-model="showChangePasswordDialog"
+  title="Изменить пароль"
+  :is-valid="isPasswordFormValid"
+  @confirm="changePassword"
+  @cancel="resetPasswordForm"
+>
+  <template #content>
+    <q-input 
+      v-model="passwordData.currentPassword" 
+      label="Текущий пароль" 
+      type="password"
+      class="content_popup_value"
+      :rules="[val => !!val || 'Обязательное поле']"
     />
+    <q-input 
+      v-model="passwordData.newPassword" 
+      label="Новый пароль" 
+      type="password"
+      class="content_popup_value"
+      :rules="[val => !!val || 'Обязательное поле']"
+    />
+    <q-input 
+      v-model="passwordData.confirmPassword" 
+      label="Подтвердите пароль" 
+      type="password"
+      class="content_popup_value"
+      :rules="[val => !!val || 'Обязательное поле']"
+    />
+  </template>
+</BaseDialog>
 
-    <EditDataDialog 
-      v-model="showEditDataDialog"
-      :data="editData"
-      @submit="saveContactData"
-      @hide="resetDataForm"
+<!-- Диалог изменения контактных данных -->
+<BaseDialog
+  v-model="showEditDataDialog"
+  title="Изменить контактные данные"
+  :is-valid="isContactFormValid"
+  @confirm="saveContactData"
+  @cancel="resetDataForm"
+>
+  <template #content>
+    <q-input 
+      v-model="editData.phone" 
+      label="Телефон" 
+      class="content_popup_value"
+      :rules="[val => !!val || 'Обязательное поле']"
     />
+    <q-input 
+      v-model="editData.email" 
+      label="Почта" 
+      type="email"
+      class="content_popup_value"
+      :rules="[val => !!val || 'Обязательное поле']"
+    />
+  </template>
+</BaseDialog>
 
-    <EditSupportDialog 
-      v-model="showEditSupportDialog"
-      :data="editSupport"
-      @submit="saveSupportData"
-      @hide="resetSupportForm"
+<!-- Диалог изменения данных техподдержки -->
+<BaseDialog
+  v-model="showEditSupportDialog"
+  title="Изменить данные техподдержки"
+  :is-valid="isSupportFormValid"
+  @confirm="saveSupportData"
+  @cancel="resetSupportForm"
+>
+  <template #content>
+    <q-input 
+      v-model="editSupport.danfors" 
+      label="Danfors" 
+      class="content_popup_value"
     />
+    <q-input 
+      v-model="editSupport.workplace" 
+      label="Место работы" 
+      class="content_popup_value"
+    />
+    <q-input 
+      v-model="editSupport.veda" 
+      label="VEDA MC" 
+      class="content_popup_value"
+    />
+  </template>
+</BaseDialog>
   </q-page>
 </template>
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
-
-// Вынесем диалоги в отдельные компоненты для чистоты
-const ChangePasswordDialog = {
-  props: ['value', 'loading'],
-  data() {
-    return {
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: ''
-    }
-  },
-  methods: {
-    onSubmit() {
-      this.$emit('submit', {
-        currentPassword: this.currentPassword,
-        newPassword: this.newPassword
-      })
-    },
-    onHide() {
-      this.$emit('hide')
-    }
-  },
-  template: `
-    <q-dialog :value="value" @hide="onHide">
-      <q-card style="min-width: 400px">
-        <q-card-section>
-          <div class="text-h6">Изменить пароль</div>
-        </q-card-section>
-        <q-card-section class="q-pt-none">
-          <q-input v-model="currentPassword" label="Текущий пароль" type="password" />
-          <q-input v-model="newPassword" label="Новый пароль" type="password" class="q-mt-sm" />
-          <q-input v-model="confirmPassword" label="Подтвердите пароль" type="password" class="q-mt-sm" />
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn flat label="Отмена" v-close-popup />
-          <q-btn flat label="Сохранить" color="primary" @click="onSubmit" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-  `
-}
-
-const EditDataDialog = {
-  props: ['value', 'data'],
-  template: `
-    <q-dialog :value="value" @hide="$emit('hide')">
-      <q-card style="min-width: 400px">
-        <q-card-section>
-          <div class="text-h6">Изменить контактные данные</div>
-        </q-card-section>
-        <q-card-section class="q-pt-none">
-          <q-input v-model="data.phone" label="Телефон" />
-          <q-input v-model="data.email" label="Почта" type="email" class="q-mt-sm" />
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn flat label="Отмена" v-close-popup />
-          <q-btn flat label="Сохранить" color="primary" @click="$emit('submit')" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-  `
-}
-
-const EditSupportDialog = {
-  props: ['value', 'data'],
-  template: `
-    <q-dialog :value="value" @hide="$emit('hide')">
-      <q-card style="min-width: 450px">
-        <q-card-section>
-          <div class="text-h6">Изменить данные техподдержки</div>
-        </q-card-section>
-        <q-card-section class="q-pt-none">
-          <q-input v-model="data.danfors" label="Danfors" />
-          <q-input v-model="data.workplace" label="Место работы" class="q-mt-sm" />
-          <q-input v-model="data.veda" label="VEDA MC" class="q-mt-sm" />
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn flat label="Отмена" v-close-popup />
-          <q-btn flat label="Сохранить" color="primary" @click="$emit('submit')" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-  `
-}
+import BaseDialog from '@/components/utilits/BaseDialog.vue'
 
 export default {
   name: 'ProfilePage',
   components: {
-    ChangePasswordDialog,
-    EditDataDialog,
-    EditSupportDialog
+    BaseDialog
   },
+  
   data() {
     return {
-      currentTab: 'profile',
-      tabs: [
-      { name: 'profile', icon: 'person', label: 'Профиль' },
-      { name: 'security', icon: 'security', label: 'Безопасность' },
-      { name: 'support', icon: 'support', label: 'Техподдержка' },
-      { name: 'activity', icon: 'activity', label: 'Активность' }
-    ],
       showChangePasswordDialog: false,
       showEditDataDialog: false,
       showEditSupportDialog: false,
-      editData: { phone: '', email: '' },
-      editSupport: { danfors: '', workplace: '', veda: '' }
+      containerWidth: 0,
+      currentTab: 'profile',
+      tabs: [
+        { name: 'profile', icon: 'person', label: 'Профиль' },
+        { name: 'security', icon: 'security', label: 'Безопасность' },
+        { name: 'support', icon: 'support', label: 'Техподдержка' },
+        { name: 'activity', icon: 'history', label: 'Активность' }
+      ],
+      passwordData: {
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      },
+      editData: {
+        phone: '',
+        email: ''
+      },
+      editSupport: {
+        danfors: '',
+        workplace: '',
+        veda: ''
+      },
+      resizeObserver: null
     }
   },
+  
   computed: {
     ...mapState('profile', ['isLoading']),
     ...mapGetters('profile', ['getUserProfile']),
     userProfile() {
       return this.getUserProfile
+    },
+    isPasswordFormValid() {
+      return this.passwordData.currentPassword && 
+             this.passwordData.newPassword && 
+             this.passwordData.confirmPassword &&
+             this.passwordData.newPassword === this.passwordData.confirmPassword
+    },
+    isContactFormValid() {
+      return !!this.editData.phone && !!this.editData.email
+    },
+    isSupportFormValid() {
+      return !!this.editSupport.danfors && 
+             !!this.editSupport.workplace && 
+             !!this.editSupport.veda
     }
   },
+  
   methods: {
     ...mapActions('profile', ['updateProfileData', 'updatePassword']),
     
-    async changePassword(data) {
-      if (this.newPassword !== this.confirmPassword) {
-        this.$q.notify({ type: 'negative', message: 'Пароли не совпадают' })
+    async changePassword() {
+      if (this.passwordData.newPassword !== this.passwordData.confirmPassword) {
+        this.showNotify('Пароли не совпадают', 'negative')
         return
       }
       
-      const result = await this.updatePassword(data)
-      if (result.success) {
-        this.$q.notify({ type: 'positive', message: 'Пароль успешно изменен' })
+      try {
+        const result = await this.updatePassword({
+          currentPassword: this.passwordData.currentPassword,
+          newPassword: this.passwordData.newPassword
+        })
+        
+        if (result && result.success) {
+          this.showNotify('Пароль успешно изменен', 'positive')
+          this.showChangePasswordDialog = false
+          this.resetPasswordForm()
+        } else {
+          this.showNotify(result?.message || 'Ошибка при изменении пароля', 'negative')
+        }
+      } catch (error) {
+        this.showNotify('Произошла ошибка', 'negative')
         this.showChangePasswordDialog = false
-        this.resetPasswordForm()
       }
     },
     
     async saveContactData() {
-      const result = await this.updateProfileData(this.editData)
-      if (result.success) {
-        this.$q.notify({ type: 'positive', message: 'Данные обновлены' })
+      try {
+        const result = await this.updateProfileData(this.editData)
+        if (result && result.success) {
+          this.showNotify('Данные обновлены', 'positive')
+          this.showEditDataDialog = false
+        } else {
+          this.showNotify(result?.message || 'Ошибка при обновлении данных', 'negative')
+        }
+      } catch (error) {
+        this.showNotify('Произошла ошибка', 'negative')
         this.showEditDataDialog = false
       }
     },
     
     async saveSupportData() {
-      const result = await this.updateProfileData(this.editSupport)
-      if (result.success) {
-        this.$q.notify({ type: 'positive', message: 'Данные обновлены' })
+      try {
+        const result = await this.updateProfileData(this.editSupport)
+        if (result && result.success) {
+          this.showNotify('Данные обновлены', 'positive')
+          this.showEditSupportDialog = false
+        } else {
+          this.showNotify(result?.message || 'Ошибка при обновлении данных', 'negative')
+        }
+      } catch (error) {
+        this.showNotify('Произошла ошибка', 'negative')
         this.showEditSupportDialog = false
       }
     },
     
+    // Универсальный метод для уведомлений
+    showNotify(message, type = 'positive') {
+      // Попробуем разные способы вызова notify
+      if (this.$q && this.$q.notify) {
+        this.$q.notify({ type, message })
+      } else if (this.$notify) {
+        this.$notify({ type, message })
+      } else if (window.$q && window.$q.notify) {
+        window.$q.notify({ type, message })
+      } else {
+        // Fallback: используем console или alert
+        console[type === 'positive' ? 'log' : 'error'](message)
+        if (type === 'negative') {
+          alert('Ошибка: ' + message)
+        }
+      }
+    },
+    
     resetPasswordForm() {
-      this.currentPassword = ''
-      this.newPassword = ''
-      this.confirmPassword = ''
+      this.passwordData.currentPassword = ''
+      this.passwordData.newPassword = ''
+      this.passwordData.confirmPassword = ''
     },
     
     resetDataForm() {
-      this.editData.phone = this.userProfile.phone
-      this.editData.email = this.userProfile.email
+      this.editData.phone = this.userProfile.phone || ''
+      this.editData.email = this.userProfile.email || ''
     },
     
     resetSupportForm() {
-      this.editSupport.danfors = this.userProfile.danfors
-      this.editSupport.workplace = this.userProfile.workplace
-      this.editSupport.veda = this.userProfile.veda
+      this.editSupport.danfors = this.userProfile.danfors || ''
+      this.editSupport.workplace = this.userProfile.workplace || ''
+      this.editSupport.veda = this.userProfile.veda || ''
+    },
+    
+    updateContainerWidth() {
+      if (this.$refs.tabsContainer) {
+        this.containerWidth = this.$refs.tabsContainer.offsetWidth;
+      }
     }
   },
+  
   mounted() {
     this.resetDataForm()
     this.resetSupportForm()
+    
+    this.updateContainerWidth();
+    
+    this.resizeObserver = new ResizeObserver(() => {
+      this.updateContainerWidth();
+    });
+    
+    if (this.$refs.tabsContainer) {
+      this.resizeObserver.observe(this.$refs.tabsContainer);
+    }
+    
+    window.addEventListener('resize', this.updateContainerWidth);
+  },
+  
+  beforeUnmount() {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
+    window.removeEventListener('resize', this.updateContainerWidth);
   }
 }
 </script>

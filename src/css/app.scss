@@ -17,6 +17,9 @@
   align-items: center;
 }
 
+.q-timeline__subtitle { @include open-sans(300, 12px, $secondary); }
+.q-timeline__title { @include open-sans(700, 16px, $secondary); }
+
 .text-h1 {
   @include open-sans(700, 24px, $dark);
 }
@@ -30,9 +33,6 @@
 .text-h4 { @include open-sans(400, 14px, $secondary); }
 
 .text-h5 { @include open-sans(300, 12px, $secondary); }
-
-// Общие стили
-.q-timeline__title { font-size: 1rem; }
 
 .q-toolbar {
   min-height: 50px;
@@ -127,6 +127,8 @@
   }
 }
 
+
+.timeline_list { max-height: 27vh !important; overflow-y: auto; padding-left: 16px; }
 .scroll_questions_list { max-height: 70vh; overflow-y: auto; }
 .scroll_devices_list { max-height: 60vh; overflow-y: auto; }
 
@@ -333,9 +335,8 @@ a {
 .custom-tabs {
   display: flex;
   border-radius: 24px 24px 0 0;
-}
 
-.custom-tab {
+  .custom-tab {
   flex: 1;
   cursor: pointer;
   display: flex;
@@ -344,6 +345,11 @@ a {
   transition: all 0.3s ease;
   border-bottom: 3px solid transparent;
 }
+    
+    
+
+}
+
 
 .custom-tab:first-child {
   border-radius: 24px 0 0 0;
