@@ -3,7 +3,12 @@
       <div :class="[$q.screen.lt.sm ? 'column' : 'row', 'q-ma-lg']">
         <div class="col q-pa-sm">
           <div class="q-footer_logo_container q-mb-sm">
-            <img class="q-footer_emblema" src="icons\VDH.svg" alt="Логотип" />
+           <img 
+      src="icons/VDH.svg" 
+      alt="Логотип" 
+      class="q-footer_emblema svg-icon"
+      :class="{ 'svg-dark': $q.dark.isActive }"
+    />
             <div class="text-h3">VEDA DRIVES HUB</div>
           </div>
           <div>

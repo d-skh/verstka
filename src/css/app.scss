@@ -1,8 +1,9 @@
 // app global css in SCSS form
 @import './quasar.variables.scss';
+@import './custom-theme.scss';
 
 // Mixins для повторяющихся стилей
-@mixin open-sans($weight: 400, $size: 14px, $color: $secondary) {
+@mixin open-sans($weight: 400, $size: 14px, $color: var(--q-color-secondary)) {
   font-family: 'Open Sans', sans-serif;
   font-weight: $weight;
   font-style: normal;
@@ -17,22 +18,59 @@
   align-items: center;
 }
 
-.q-timeline__subtitle { @include open-sans(300, 12px, $secondary); }
-.q-timeline__title { @include open-sans(700, 16px, $secondary); }
+.q-timeline__subtitle { @include open-sans(300, 12px, var(--q-color-secondary)); }
+.q-timeline__title { @include open-sans(700, 16px, var(--q-color-secondary)); }
+.q-timeline__dot .q-icon  { color: var(--q-light); }
+
+
+.wrap-header {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+}
+
+.no-scroll-table {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.no-scroll-table >>> .q-table__container {
+  overflow-x: hidden !important;
+}
+
+.no-scroll-table >>> .q-table {
+  table-layout: fixed;
+  width: 100%;
+  min-width: 100%;
+}
+
+.q-breadcrumbs {
+  max-width: 80vw !important;
+}
+
 
 .text-h1 {
-  @include open-sans(700, 24px, $dark);
+  @include open-sans(700, 24px, var(--q-color-dark));
 }
 
 .text-h2 {
-  @include open-sans(600, 20px, $secondary);
+  @include open-sans(600, 20px, var(--q-color-secondary));
 }
 
-.text-h3 { @include open-sans(700, 16px, $secondary); }
+.text-h3 { @include open-sans(700, 16px, var(--q-color-secondary)); }
 
-.text-h4 { @include open-sans(400, 14px, $secondary); }
+.text-h4 { @include open-sans(400, 14px, var(--q-color-secondary)); }
 
-.text-h5 { @include open-sans(300, 12px, $secondary); }
+.text-h5 { @include open-sans(300, 12px, var(--q-color-secondary)); }
+
+
+.multi-line-header {
+   white-space: normal !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  hyphens: auto;
+}
+
 
 .q-toolbar {
   min-height: 50px;
@@ -43,13 +81,10 @@
 .q-header {
   margin-bottom: -50px;
   height: 50px;
-  border: $primary solid 1px;
-  background-color: $primary;
   box-shadow: 0 10px 6px rgba(0, 0, 0, 0.01);
 }
 
-.q-layout { background-color: $drawer_active; }
-.q-card { height: 100%; border: $primary solid 1px; border-radius: 24px; box-shadow: 0 10px 6px rgba(0, 0, 0, 0.01); }
+.q-card { height: 100%; border-radius: 24px; box-shadow: 0 10px 6px rgba(0, 0, 0, 0.01); }
 .q-field--outlined .q-field__control {border-radius: 10px !important;}
 .q-dialog { 
   
@@ -60,7 +95,7 @@
   max-height: none !important;
   height: auto;
   border-radius: 24px;
-  border: $primary solid 1px;
+  border: var(--q-divider-light) solid 1px;
   box-shadow: none !important;
 }
 }
@@ -70,7 +105,6 @@
   @include open-sans;
   position: fixed;
   max-height: 98vh;
-  border: $primary solid 1px;
   border-radius: 24px;
   margin: 10px;
 
@@ -80,8 +114,7 @@
     transition: none !important;
     
     &--active {
-      @include open-sans(700, 14px, $dark);
-      background-color: $drawer_active;
+      @include open-sans(700, 14px, var(--q-color-dark));
       border-radius: 8px;
     }
 
@@ -116,28 +149,23 @@
     
     &-track { background: transparent !important; }
     &-thumb {
-      background: $primary !important;
+      background: var(--q-divider-dark) !important;
       border-radius: 4px !important;
       height: 80px !important;
       max-height: 80px !important;
       transition: background 0.3s;
       
-      &:hover { background: $secondary; }
+      &:hover { background: var(--q-color-secondary); }
     }
   }
 }
 
 
-.timeline_list { max-height: 27vh !important; overflow-y: auto; padding-left: 16px; }
+.timeline_list { max-height: 240px !important; overflow-y: auto; padding-left: 16px; }
 .scroll_questions_list { max-height: 70vh; overflow-y: auto; }
 .scroll_devices_list { max-height: 60vh; overflow-y: auto; }
 
 // Компоненты
-.profile {
-  background-color: $menu_active;
-  border-radius: 24px;
-  border: $primary 1px solid;
-}
 
 .drawer_scrolling {
   max-height: 73vh;
@@ -152,8 +180,6 @@
 // Кнопки и иконки
 .drawer-close-btn {
   @include flex-center;
-  color: $secondary !important;
-  background-color: $menu_active !important;
   border-radius: 23px;
   width: 22px !important;
   height: 22px !important;
@@ -181,7 +207,7 @@
 }
 
 .q-btn {
-    @include open-sans(700, 16px, $secondary); 
+    color: var(--q-color-secondary);
     text-transform: none !important; 
     border-radius: 6px; 
     box-shadow: none !important;
@@ -199,28 +225,29 @@
 // Текстовые стили
 .header {
   &_logo {
-    @include open-sans(700, 16px, $secondary);
+    @include open-sans(700, 16px);
     display: inline-block;
   }
   
   &_emblema {
     min-width: auto;
-    img { width: 22px; height: 22px; }
+    .q-icon {
+    color: inherit !important;
+}
+    img { width: 22px; height: 22px; color: var(--q-color-secondary) !important; }
   }
 }
 
 .q-footer {
   margin: 0 40px 10px;
   border-radius: 24px;
-  border: $primary solid 1px;
-  background-color: $primary;
   box-shadow: 0 10px 6px rgba(0, 0, 0, 0.01);
 
   &_logo_container { @include flex-center; gap: 2px; }
   &_emblema { transform: scale(0.6); }
-  &_logo { @include open-sans(700, 16px, $secondary); }
-  &_projects { @include open-sans(400, 14px, $secondary); text-decoration: underline; }
-  &_geo, &_rights { @include open-sans(400, 12px, $secondary); }
+  &_logo { @include open-sans(700, 16px, var(--q-color-secondary)); }
+  &_projects { @include open-sans(400, 14px, var(--q-color-secondary)); text-decoration: underline; }
+  &_geo, &_rights { @include open-sans(400, 12px, var(--q-color-secondary)); }
 
   @media (max-width: 599px) {
     margin-left: 20px;
@@ -229,12 +256,11 @@
 
 }
 
-.user_name { @include open-sans(400, 16px, $secondary); }
+.user_name { @include open-sans(400, 16px, var(--q-color-secondary)); }
 
 // Content стили
 .q-page {
   margin: 40px;
-  background: $drawer_active;
   
   @media (max-width: 599px) {
     margin: 20px 20px 40px;
@@ -243,14 +269,14 @@
 
 .content {
   
-  &_card_title, &_popup_title { @include open-sans(600, 20px, $secondary); }
-  &_questions_title { @include open-sans(400, 14px, $dark); }
+  &_card_title, &_popup_title { @include open-sans(600, 20px, var(--q-color-secondary)); }
+  &_questions_title { @include open-sans(400, 14px, var(--q-color-dark)); }
   &_questions_icons { color: $icons; }
-  &_questions_time { @include open-sans(400, 12px, $secondary); }
-  &_orders-contracts_last {@include open-sans(700, 14px, $secondary); }
-  &_popup_value { @include open-sans(400, 16px, $secondary); }
+  &_questions_time { @include open-sans(400, 12px, var(--q-color-secondary)); }
+  &_orders-contracts_last {@include open-sans(700, 14px, var(--q-color-secondary)); }
+  &_popup_value { @include open-sans(400, 16px, var(--q-color-secondary)); }
   &_popup_negative { @include open-sans(400, 16px, $negative); border: 1px solid $negative; border-radius: 8px; padding: 0.3em 0.4em }
-  &_popup_positive { @include open-sans(400, 16px, $secondary); border: 1px solid $secondary; border-radius: 8px; padding: 0.3em 0.4em }
+  &_popup_positive { @include open-sans(400, 16px, var(--q-color-secondary)); border: 1px solid var(--q-color-secondary); border-radius: 8px; padding: 0.3em 0.4em }
   
   &_chat-btn, &_dv-btn-1, &_dv-btn-2 {
     border-radius: 20px;
@@ -262,31 +288,29 @@
   
   &_chat-btn {
     width: 50px; height: 36px;
-    background-color: $primary;
-    color: $secondary;
+
   }
   
   &_dv-btn-1 { width: 180px; height: 36px; }
   &_dv-btn-2 { 
     width: 220px; height: 36px; 
-    background-color: $primary;
-    color: $secondary;
     
     &_mobile { width: 95%; }
   }
 }
 
 
+.custom-pagination >>> .q-table__bottom .q-table__control:first-child {
+  display: none !important;
+}
 
-.toolbar_button { color: $secondary !important; }
+
 
 // Утилиты
 .rotate-180 {
   transform: rotate(180deg);
   transition: transform 0.3s;
 }
-
-.logout { color: $negative !important; }
 
 .menu-dropdown {
   text-align: right;
@@ -302,7 +326,7 @@
 
 .drawer-vdh-container {
   padding: 16px 0 !important;
-  border-bottom: $primary 1px solid;
+  border-bottom: var(--q-divider-dark) 1px solid;
 }
 
 // Глобальные стили
@@ -365,9 +389,9 @@ a {
 }
 
 .custom-tab.active {
-  color: $accent;
-  border-bottom-color: $accent;
-  background-color: rgba($accent, 0.03);
+  color: var(--q-color-accent);
+  border-bottom-color: var(--q-color-accent);
+  background-color: rgba(var(--q-color-accent), 0.03);
 }
 
 .tab-content {

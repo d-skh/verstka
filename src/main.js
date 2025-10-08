@@ -2,23 +2,30 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
-import Quasar from 'quasar' // ← Только Quasar, без *
-import 'quasar/dist/quasar.css'
+import Quasar, { Dark } from 'quasar'
 import 'material-symbols/outlined.css'
-import '@quasar/extras/material-icons/material-icons.css'
-import '@quasar/extras/mdi-v5/mdi-v5.css' // ← Material Design Icons
-import '@quasar/extras/fontawesome-v6/fontawesome-v6.css' // ← Font Awesome
-import './css/app.scss' // ← ДОБАВЬТЕ ЭТУ СТРОКУ
+import './css/app.scss'
+
 
 
 Vue.use(Quasar, {
   config: {
     brand: {
       primary: '#DEE2E6',
-      secondary: '#6C757D',
+      bg_primary: '#F5F5F5',
+      bg_dark: '#DEE2E6',
+      divider_light: '#DEE2E6',
+      divider_dark: '#c3cad0',
       accent: '#C9060A',
+      neutral: '#eef0f4',
       
       dark: '#212529',
+      light: '#fff',
+
+      main: '#212529',
+      secondary: '#6C757D',
+      tertiary: '#ADB5BD',
+      link: '#c9060A',
       
       positive: '#21BA45',
       negative: '#C10015',
@@ -27,9 +34,9 @@ Vue.use(Quasar, {
     }
   },
   plugins: {},
-  iconSet: 'material-symbols-outlined'
 })
 
+Dark.set(false)
 Vue.config.productionTip = false
 
 new Vue({

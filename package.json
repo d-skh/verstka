@@ -19,7 +19,7 @@
     "dependencies": {
         "@quasar/extras": "^1.17.0",
         "material-symbols": "^0.32.0",
-        "quasar": "^1.16.9",
+        "quasar": "^1.22.10",
         "quasar-extras": "^2.0.9",
         "vue": "^2.6.14",
         "vue-router": "^3.6.5",

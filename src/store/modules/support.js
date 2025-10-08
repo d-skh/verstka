@@ -30,14 +30,16 @@ export default {
     }
   },
   actions: {
-    addQuestion ({ commit }, questionData) {
+    addQuestion ({ commit, dispatch }, questionData) {
       commit('ADD_QUESTION', {
         title: questionData.title,
         time: questionData.time
       })
+      dispatch('timeline/addQuestionEvent', questionData.title, { root: true })
     }
   },
   getters: {
-    dashboardQuestions: state => state.dashboardData.questions
+    dashboardQuestions: state => state.dashboardData.questions,
+    questionsCount: state => state.dashboardData.questions.length
   }
 }

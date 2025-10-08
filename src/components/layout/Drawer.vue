@@ -15,16 +15,21 @@
       </div>
 
       <div v-if="!miniState" class="absolute-top-right q-ma-md lt-sm">
-        <q-btn round unelevated class="drawer-close-btn" @click="setLeftDrawerOpen(false)">
+        <div class="drawer-close-btn" @click="setLeftDrawerOpen(false)">
           <span class="material-symbols-outlined">left_panel_close</span>
-        </q-btn>
+        </div>
       </div>
 
       <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }" :vertical-thumb-style="{ opacity: 0 }">
         <q-list class="q-px-md">
           <q-item class="drawer-vdh-container">
             <q-item-section avatar class="header_emblema">
-              <img src="icons\VDH.svg" alt="Логотип" />
+              <img 
+      src="icons/VDH.svg" 
+      alt="Логотип" 
+      class="svg-icon"
+      :class="{ 'svg-dark': $q.dark.isActive }"
+    />
             </q-item-section>
             <q-item-section v-if="!miniState">
               <div class="header_logo">VEDA DRIVES HUB</div>
@@ -36,7 +41,7 @@
           <q-list class="q-mt-sm q-px-md">
             <q-item v-if="miniState" clickable @click="setMiniState(false)">
               <q-item-section avatar>
-                <span class="drawer-close-btn material-symbols-outlined">left_panel_open</span>
+                <span class="drawer-close-btn material-symbols-outlined q-pa-none">left_panel_open</span>
               </q-item-section>
               <q-tooltip v-if="miniState" anchor="top end" self="top start" :offset="[5, 5]">
                 Раскрыть меню
@@ -127,8 +132,8 @@
           </q-list>
         </div>
 
-        <q-list class="logout absolute-bottom q-px-md q-mb-sm">
-          <q-item clickable v-ripple>
+        <q-list class="absolute-bottom q-px-md q-mb-sm">
+          <q-item clickable v-rippl class="text-negative">
             <q-item-section avatar>
               <q-icon flat round dense name="logout" />
             </q-item-section>
@@ -166,8 +171,10 @@ export default {
           label: 'Магазин',
           hasChildren: true,
           children: [
-            { id: 'store-1', label: 'Преобразователи частоты', to: '/store/frequency-converters' },
-            { id: 'store-2', label: 'Зарядные устройства', to: '/store/chargers' }
+            { id: 'store-1', label: 'Баланс', to: '/store/balance' },
+            { id: 'store-2', label: 'Контракты', to: '/store/contracts' },
+            { id: 'store-3', label: 'Мои заказы', to: '/orders' },
+            { id: 'store-4', label: 'Коммерческое предложение', to: '/store/commerce' }
           ]
         },
         {

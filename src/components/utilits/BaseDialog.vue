@@ -15,10 +15,24 @@
       </q-card-section>
 
       <q-card-actions align="right" class="q-pr-md q-pt-none">
-        <q-btn v-close-popup outline size="md" text-color="dark" label="Закрыть" padding="8px 12px" @click="$emit('cancel')"/>
+        <q-btn 
+          v-close-popup 
+          outline 
+          size="md" 
+          text-color="dark" 
+          :label="cancelLabel" 
+          padding="4px 12px" 
+          @click="$emit('cancel')"
+        />
 
-        <q-btn :disable="!isValid" size="md" color="accent" label="Добавить" padding="8px 12px" @click="$emit('confirm')"/>
-
+        <q-btn 
+          :disable="!isValid" 
+          size="md" 
+          :color="confirmColor" 
+          :label="confirmLabel" 
+          padding="4px 12px" 
+          @click="$emit('confirm')"
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -28,7 +42,7 @@
 export default {
   name: 'BaseDialog',
   props: {
-    value: {  // ← используем value вместо modelValue
+    value: {
       type: Boolean,
       default: false
     },
@@ -39,8 +53,20 @@ export default {
     isValid: {
       type: Boolean,
       default: false
+    },
+    confirmLabel: {
+      type: String,
+      default: 'Добавить'
+    },
+    cancelLabel: {
+      type: String,
+      default: 'Закрыть'
+    },
+    confirmColor: {
+      type: String,
+      default: 'accent'
     }
   },
-  emits: ['input', 'show', 'hide', 'confirm', 'cancel']  // ← input вместо update:modelValue
+  emits: ['input', 'show', 'hide', 'confirm', 'cancel']
 }
 </script>

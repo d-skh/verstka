@@ -39,7 +39,7 @@
             <div class="">
               <q-btn class="full-width q-mb-sm" size="md" color="primary" text-color="dark" label="Редактировать профиль" icon="edit" padding="8px 12px" @click="showEditDataDialog = true"/>
 
-              <q-btn outline class="full-width" size="md" color="primary" label="Сменить пароль" icon="lock" text-color="dark" padding="8px 12px" @click="showChangePasswordDialog = true"/>
+              <q-btn outline class="full-width" size="md" label="Сменить пароль" icon="lock" text-color="secondary" padding="8px 12px" @click="showChangePasswordDialog = true"/>
 
             </div>
 
@@ -159,35 +159,13 @@
     </div>
 
     <!-- Вкладка Активность -->
+     
     <div v-if="currentTab === 'activity'" class="tab-panel q-pa-md">
       <div class="text-h2 q-mb-md">Последняя активность</div>
       
       <div class="timeline_list">
-      <q-timeline color="secondary">
-        <q-timeline-entry
-          title="Новый вопрос"
-          subtitle="2 часа назад"
-          icon="help"
-        >
-          <div class="text-h5">Создан новый вопрос в категории "Технические проблемы"</div>
-        </q-timeline-entry>
-
-        <q-timeline-entry
-          title="Обновление профиля"
-          subtitle="5 дней назад"
-          icon="edit"
-        >
-          <div class="text-h5">Изменена контактная информация</div>
-        </q-timeline-entry>
-
-        <q-timeline-entry
-          title="Вход в систему"
-          subtitle="1 неделю назад"
-          icon="login"
-        >
-          <div class="text-h5">Успешный вход с нового устройства</div>
-        </q-timeline-entry>
-      </q-timeline></div>
+        <activity-timeline />
+      </div>
     </div>
   </div>
   <div class="q-pa-md">
@@ -227,6 +205,7 @@
 <BaseDialog
   v-model="showChangePasswordDialog"
   title="Изменить пароль"
+  confirm-label="Изменить"
   :is-valid="isPasswordFormValid"
   @confirm="changePassword"
   @cancel="resetPasswordForm"
@@ -260,6 +239,7 @@
 <BaseDialog
   v-model="showEditDataDialog"
   title="Изменить контактные данные"
+  confirm-label="Сохранить"
   :is-valid="isContactFormValid"
   @confirm="saveContactData"
   @cancel="resetDataForm"
@@ -285,6 +265,7 @@
 <BaseDialog
   v-model="showEditSupportDialog"
   title="Изменить данные техподдержки"
+  confirm-label="Сохранить"
   :is-valid="isSupportFormValid"
   @confirm="saveSupportData"
   @cancel="resetSupportForm"
@@ -313,11 +294,13 @@
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 import BaseDialog from '@/components/utilits/BaseDialog.vue'
+import ActivityTimeline from '@/components/utilits/ActivityTimeline.vue'
 
 export default {
   name: 'ProfilePage',
   components: {
-    BaseDialog
+    BaseDialog,
+    ActivityTimeline
   },
   
   data() {

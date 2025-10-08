@@ -34,7 +34,7 @@
     <q-card class="col ">
       <q-card-section class="q-pb-none">
         <div class="flex flex-center">
-       <q-btn size="md" color="primary" label="Добавить вопрос" icon="mdi-chat-plus-outline" text-color="dark" padding="8px 12px" @click="handleAddQuestion = true"/>
+       <q-btn size="md" color="primary" label="Добавить вопрос" icon="add_comment" text-color="dark" padding="8px 12px" @click="handleAddQuestion = true"/>
       </div>
        </q-card-section>
       <q-card-section class="q-pt-none">

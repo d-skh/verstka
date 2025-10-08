@@ -7,18 +7,20 @@
 
 
 
-        <q-btn class="toolbar_button" dense flat icon="menu" @click="toggleLeftDrawer" />
+        <q-btn  dense flat icon="menu" @click="toggleLeftDrawer" />
         <q-space />
-
-        <q-btn class="toolbar_button" flat dense icon="help" />
-        <q-btn class="toolbar_button" flat dense icon="notifications">
-          <q-badge floating color="red" transparent v-if="notificationsCount > 0">
-            {{ notificationsCount }}
-          </q-badge>
+        
+        <theme-toggle />
+        <q-btn  flat dense icon="help" />
+        <q-btn c flat dense icon="notifications">
+          <q-badge floating color="red" transparent v-if="totalCount > 0">
+          {{ totalCount }}
+        </q-badge>
         </q-btn>
         <router-link to="/profile" custom v-slot="{ navigate }">
   <q-btn
-    class="toolbar_button"
+  v-if="$route.path !== '/profile'"
+    
     dense
     flat
     round
@@ -41,21 +43,33 @@
     <q-toolbar class="gt-xs">
       <q-space /> <!-- Пустое пространство слева, чтобы кнопки были справа -->
 
-      <q-btn class="toolbar_button" dense flat round icon="help" />
-      <q-btn class="toolbar_button" dense flat round icon="notifications">
-        <q-badge floating color="red" transparent v-if="notificationsCount > 0">
-          {{ notificationsCount }}
+      <theme-toggle />
+      <q-btn  dense flat icon="help">
+        <q-tooltip>
+      Помощь
+    </q-tooltip>
+      </q-btn>
+      <q-btn  dense flat icon="notifications">
+        <q-tooltip>
+      Уведомления
+    </q-tooltip>
+        <q-badge floating color="red" transparent v-if="totalCount > 0">
+          {{ totalCount }}
         </q-badge>
       </q-btn>
       <router-link to="/profile" custom v-slot="{ navigate }">
   <q-btn
+  v-if="$route.path !== '/profile'"
     class="toolbar_button"
     dense
     flat
-    round
     icon="account_circle"
-    @click="navigate"
-  />
+    @click="navigate">
+    <q-tooltip>
+      Профиль
+    </q-tooltip>
+  </q-btn>
+
 </router-link>
       <!--
           <q-item clickable v-ripple class="profile">
@@ -85,6 +99,7 @@
 <script>
 import drawer from '@/components/layout/Drawer.vue'
 import appFooter from '@/components/layout/Footer.vue'
+import ThemeToggle from '@/components/utilits/ThemeToggle.vue'
 import { mapGetters, mapActions } from 'vuex'
 
 
@@ -92,13 +107,17 @@ export default {
   components: {
     drawer,
     appFooter,
+    ThemeToggle,
   },
 
   computed: {
-    ...mapGetters('user', {
-      notificationsCount: 'currentUserNotifications',
-      userName: 'currentUserName'
-    })
+    ...mapGetters({
+      questionsCount: 'questions/questionsCount',
+      devicesCount: 'devices/devicesCount'
+    }),
+    totalCount() {
+      return (this.questionsCount || 0) + (this.devicesCount || 0)
+    }
   },
 
   methods: {

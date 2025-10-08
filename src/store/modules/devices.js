@@ -26,14 +26,16 @@ export default {
     }
   },
   actions: {
-    addDevice ({ commit }, deviceData) {
+    addDevice ({ commit, dispatch }, deviceData) {
       commit('ADD_DEVICE', {
         label: deviceData.name,
         value: deviceData.status
       })
+      dispatch('timeline/addDeviceEvent', deviceData.name, { root: true })
     }
   },
   getters: {
-    dashboardDevices: state => state.dashboardData.devices
+    dashboardDevices: state => state.dashboardData.devices,
+  devicesCount: state => state.dashboardData.devices.length
   }
 }

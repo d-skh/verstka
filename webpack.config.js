@@ -25,64 +25,66 @@ module.exports = (env, argv) => {
                 'layouts': path.resolve(__dirname, 'src/layouts'),
                 'pages': path.resolve(__dirname, 'src/pages'),
                 'assets': path.resolve(__dirname, 'src/assets'),
-                'quasar': path.resolve(__dirname, 'node_modules/quasar/'),
+                'quasar': path.resolve(__dirname, 'node_modules/quasar/dist/quasar.esm.js'),
                 '@quasar': path.resolve(__dirname, 'node_modules/@quasar/')
             }
         },
         module: {
-            rules: [{
-                test: /\.vue$/,
-                loader: 'vue-loader'
-            },
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
-                    'css-loader'
-                ]
-            },
-            {
-                test: /\.scss$/,
-                use: [
-                    isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
-                    'css-loader',
-                    'sass-loader' // просто sass-loader без сложных опций
-                ]
-            },
-            {
-                test: /\.styl$/,
-                use: [
-                    isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
-                    'css-loader',
-                    {
-                        loader: 'stylus-loader',
-                        options: {
-                            import: [path.resolve(__dirname, 'src/quasar.variables.styl')]
+            rules: [
+                {
+                    test: /\.vue$/,
+                    loader: 'vue-loader'
+                },
+                {
+                    test: /\.js$/,
+                    loader: 'babel-loader',
+                    exclude: /node_modules/
+                },
+                {
+                    test: /\.css$/,
+                    use: [
+                        isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+                        'css-loader'
+                    ]
+                },
+                {
+                    test: /\.scss$/,
+                    use: [
+                        isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+                        'css-loader',
+                        'sass-loader'
+                    ]
+                },
+                // УДАЛЕНО правило для .sass, так как используем SCSS
+                {
+                    test: /\.styl$/,
+                    use: [
+                        isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+                        'css-loader',
+                        {
+                            loader: 'stylus-loader',
+                            options: {
+                                import: [path.resolve(__dirname, 'src/quasar.variables.styl')]
+                            }
                         }
+                    ]
+                },
+                {
+                    test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: 'img/[name].[hash:7].[ext]'
                     }
-                ]
-            },
-            {
-                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: 'img/[name].[hash:7].[ext]'
+                },
+                {
+                    test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: 'fonts/[name].[hash:7].[ext]'
+                    }
                 }
-            },
-            {
-                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: 'fonts/[name].[hash:7].[ext]'
-                }
-            }
             ]
         },
         plugins: [
@@ -92,13 +94,15 @@ module.exports = (env, argv) => {
                 filename: 'index.html'
             }),
             new CopyWebpackPlugin({
-                patterns: [{
-                    from: path.resolve(__dirname, 'public'),
-                    to: path.resolve(__dirname, 'dist'),
-                    globOptions: {
-                        ignore: ['**/index.html']
+                patterns: [
+                    {
+                        from: path.resolve(__dirname, 'public'),
+                        to: path.resolve(__dirname, 'dist'),
+                        globOptions: {
+                            ignore: ['**/index.html']
+                        }
                     }
-                }]
+                ]
             }),
             ...(isProduction ? [
                 new MiniCssExtractPlugin({

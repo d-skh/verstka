@@ -3,11 +3,20 @@ const routes = [
     path: '/',
     component: () => import('@/layouts/MainLayout.vue'), 
     children: [
-      { path: '', component: () => import('@/pages/desktop.vue') },
-      { path: '/orders', component: () => import('@/pages/Orders.vue') },
-      { path: '/support', component: () => import('@/pages/support.vue') },
-      { path: '/devices', component: () => import('@/pages/devices.vue') },
-      { path: '/profile', component: () => import('@/pages/profile.vue') },
+      { path: '', component: () => import('@/pages/Desktop.vue') },
+      { 
+        path: '/orders', 
+        name: 'orders',
+        component: () => import('@/pages/Orders.vue') 
+      },
+      {
+        path: '/orders/:id',
+        name: 'order-detail', 
+        component: () => import('@/components/OrderDetail.vue')
+      },
+      { path: '/support', component: () => import('@/pages/Support.vue') },
+      { path: '/devices', component: () => import('@/pages/Devices.vue') },
+      { path: '/profile', component: () => import('@/pages/Profile.vue') },
       { path: '/buttonsDemo', component: () => import('@/components/ButtonsDemo.vue') },
       { path: '/cardsDemo', component: () => import('@/components/CardsDemo.vue') },
       { path: '/colors', component: () => import('@/components/Colors.vue') },

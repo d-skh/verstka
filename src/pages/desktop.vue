@@ -14,8 +14,8 @@
                 
 
                 <div class="row items-center justify-between">
-                  <div><q-icon size="sm" outlined name="mdi-chat" class="q-pr-sm" />Вопросы</div>
-                  <q-btn size="md" color="primary" label="" icon="mdi-chat-plus-outline" text-color="dark" padding="8px 12px" @click="handleAddQuestion = true"/>
+                  <div><q-icon size="sm" outlined name="chat" class="q-pr-sm" />Вопросы</div>
+                  <q-btn size="md" color="primary" icon="add_comment" text-color="dark" padding="8px 12px" @click="handleAddQuestion = true"/>
                 </div>
                 <BaseDialog
     v-model="handleAddQuestion"
@@ -67,7 +67,7 @@
           <q-card>
             <q-card-section>
               <q-item class="text-h2 q-pt-none" q-pa-none>
-                <div><q-icon size="sm" outlined name="mdi-cart" class="q-pr-sm" />Заказы</div>
+                <div><q-icon size="sm" outlined name="shopping_cart" class="q-pr-sm" />Заказы</div>
               </q-item>
               <q-list dense>
                 <q-item v-for="(item, index) in orders" :key="index" class="text-h4"
@@ -85,7 +85,7 @@
           <q-card>
             <q-card-section>
               <q-item class="text-h2 q-pt-none">
-                <div><q-icon size="sm" outlined name="mdi-handshake" class="q-pr-sm" />Контракты</div>
+                <div><q-icon size="sm" outlined name="handshake" class="q-pr-sm" />Контракты</div>
               </q-item>
               <q-list dense>
                 <q-item v-for="(item, index) in contracts" :key="index" class="text-h4"
@@ -111,20 +111,8 @@
                     <span class="content_dv-btn-1_text q-mr-md">Создать вопрос</span>
                     <q-icon name="mdi-chat-plus-outline" />
                   </q-btn>-->
-                </div>
-              </q-item-section>
-            </q-item>
-            <q-list dense separator class="scroll_devices_list scroll" v-if="devices.length > 0">
-              <q-item v-for="(item, index) in devices" :key="index" class="text-h4" clickable v-ripple>
-                <q-item-section>{{ item.label }}</q-item-section>
-                <q-item-section class="text-right">{{ item.value }}</q-item-section>
-              </q-item>
-            </q-list>
-            <div v-else class="content_devices_empty-state">
-              <div>У вас пока нет добавленных устройств</div>
-            </div>
-            <div class="row justify-center">
-              <q-btn class="q-mt-lg" size="md" color="primary" label="Добавить устройство" icon="add" text-color="dark" padding="8px 12px" @click="handleAddDevice = true"/>
+                  <div class="">
+              <q-btn class="" size="md" color="primary" icon="add_to_queue" text-color="dark" padding="8px 12px" @click="handleAddDevice = true"/>
               <BaseDialog
     :value="handleAddDevice"
     @input="handleAddDevice = $event"
@@ -151,6 +139,20 @@
     </template>
   </BaseDialog>
             </div>
+                </div>
+                
+              </q-item-section>
+            </q-item>
+            <q-list dense separator class="scroll_devices_list scroll" v-if="devices.length > 0">
+              <q-item v-for="(item, index) in devices" :key="index" class="text-h4" clickable v-ripple>
+                <q-item-section>{{ item.label }}</q-item-section>
+                <q-item-section class="text-right">{{ item.value }}</q-item-section>
+              </q-item>
+            </q-list>
+            <div v-else class="content_devices_empty-state">
+              <div>У вас пока нет добавленных устройств</div>
+            </div>
+            
           </q-card-section>
         </q-card>
       </div>

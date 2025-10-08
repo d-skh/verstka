@@ -1,0 +1,104 @@
+// custom-theme.scss
+:root {
+  // Светлая тема (можно переопределить автоматические переменные)
+--q-color-primary: #DEE2E6;
+    --q-color-secondary: #6C757D;
+    --q-color-accent: #C9060A;
+    --q-color-dark: #212529;
+    --q-color-positive: #21BA45;
+    --q-color-negative: #C10015;
+    --q-color-info: #31CCEC;
+    --q-color-warning: #F2C037;
+
+    // Кастомные переменные создаем вручную
+  --q-bg-primary: #F5F5F5;
+  --q-bg-dark: #DEE2E6;
+  --q-divider-light: #DEE2E6;
+  --q-divider-dark: #CED4DA;
+  --q-neutral: #eef0f4;
+  --q-light: #fff;
+  --q-main: #212529;
+  --q-tertiary: #ADB5BD;
+  --q-link: #c9060A;
+  --q-neutral: #eef0f4;
+}
+
+.body--dark {
+  // Темная тема
+  --q-color-primary:rgb(110, 110, 110) !important;
+    --q-color-secondary: #ffffff !important;
+    --q-color-accent: #C9060A !important;
+    --q-color-dark: #ffffff !important;
+    --q-color-positive: #21BA45 !important;
+    --q-color-negative: #C10015 !important;
+    --q-color-info: #31CCEC !important;
+    --q-color-warning: #F2C037 !important;
+
+    --q-bg-primary: #353535;
+      --q-bg-dark: #333333;
+  --q-divider-light: #6d6d6d;
+  --q-divider-dark: #636363;
+  --q-neutral: #5f5f5f;
+  --q-light: #414141;
+  --q-main: #e0e0e0; // В темной теме текст становится светлым
+  --q-tertiary: #8a8a8a;
+  --q-link: #ff5252; // Можно сделать ярче для темной темы
+}
+
+.q-layout,
+.q-page,
+.q-page-container {
+  background-color: var(--q-bg-primary) !important;
+}
+
+
+.svg-icon.svg-dark {
+  filter: brightness(0) saturate(100%) invert(100%);
+}
+
+.q-drawer{
+  background-color: var(--q-light) !important;
+  border: var(--q-divider-dark) solid 1px !important;
+}
+
+.q-footer, .q-header {
+  background-color: var(--q-bg-dark) !important;
+  border: var(--q-divider-dark) solid 1px !important;
+}
+
+.q-card {
+  background-color: var(--q-light) !important;
+  border: var(--q-divider-light) solid 1px;
+}
+
+.q-table, .q-tab-panel, .q-table__container, .q-menu {
+  background-color: var(--q-light) !important;
+}
+
+// Текст - ПРЕДОТВРАЩАЕМ автоматическое изменение цвета
+.q-item,
+.q-list {
+  color: var(--q-color-secondary);
+}
+
+.q-item__label,
+.q-field__bottom {
+  color: var(--q-color-secondary) !important;
+}
+
+// Кнопки
+
+.q-btn--accent {
+  background-color: var(--q-color-accent) !important;
+  color: white !important;
+}
+
+
+.q-item.q-router-link--active {
+  background-color: var(--q-neutral) !important;
+  color: var(--q-color-dark) !important;
+}
+
+.q-item--active {
+  background-color: var(--q-neutral);
+}
