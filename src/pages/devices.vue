@@ -1,9 +1,18 @@
 <template>
   <q-page class="column content_page">
-    <div class="row no-wrap justify-between items-center">
-      <div class="text-h1 q-mb-md">
+    <q-breadcrumbs class="q-mb-md relative-position text-h4">
+      <q-breadcrumbs-el icon="home" label="Главная" to="/" class="cursor-pointer text-secondary" />
+      <q-breadcrumbs-el icon="memory" label="Устройства" to="/devices" class="text-dark text-weight-bold" />
+    </q-breadcrumbs>
+    <div class="row no-wrap justify-between items-center q-mb-lg">
+      <div class="text-h1">
         <q-icon name="memory" size="30px" color="dark"/>
         Устройства
+      </div>
+      <div>
+         <q-btn size="md" color="primary" icon="add" text-color="dark" padding="8px 12px" @click="handleAddDevice = true">
+          <q-label class="gt-xs">Добавить устройство</q-label>
+         </q-btn>
       </div>
       <BaseDialog
     :value="handleAddDevice"
@@ -34,14 +43,8 @@
 
     
     <q-card class="col q-pt-none">
-      <q-card-section class="q-pb-none">
-        
-        <div class="flex flex-center">
-        <q-btn size="md" color="primary" label="Добавить устройство" icon="add" text-color="dark" padding="8px 12px" @click="handleAddDevice = true"/>
-      </div>
-      </q-card-section>
       <q-card-section class="q-pt-none">
-        <q-list dense separator class="pages_list q-pa-md" v-if="devices.length > 0">
+        <q-list dense separator class="pages_list q-py-sm" v-if="devices.length > 0">
           <q-item v-for="(item, index) in devices" :key="index" class="text-h4" clickable v-ripple>
             <q-item-section>{{ item.label }}</q-item-section>
             <q-item-section class="text-right">{{ item.value }}</q-item-section>

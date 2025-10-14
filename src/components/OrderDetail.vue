@@ -1,54 +1,52 @@
 <template>
-  <q-page>
+  <q-page class="column">
     <!-- Хлебные крошки -->
-    
-    <q-breadcrumbs class="q-mb-md relative-position z-max text-h4">
-  <q-breadcrumbs-el 
-    icon="home" 
-    label="Главная" 
-    to="/"
-    class="cursor-pointer text-secondary"
-  />
-  <q-breadcrumbs-el 
-    icon="shop" 
-    label="Мои заказы" 
-    to="/orders"
-    class="cursor-pointer text-secondary" 
-  />
-  <q-breadcrumbs-el 
-    icon="assignment" 
-    :label="order?.projectName || `Заказ ${order?.invoiceNumber}`" 
-    class="text-dark text-weight-bold" 
-  />
-</q-breadcrumbs>
-
+    <q-breadcrumbs class="q-mb-md relative-position text-h4">
+      <q-breadcrumbs-el 
+        icon="home" 
+        label="Главная" 
+        to="/"
+        class="cursor-pointer text-secondary"
+      />
+      <q-breadcrumbs-el 
+        icon="shop" 
+        label="Мои заказы" 
+        to="/orders"
+        class="cursor-pointer text-secondary" 
+      />
+      <q-breadcrumbs-el 
+        icon="assignment" 
+        :label="order?.projectName || `Заказ ${order?.invoiceNumber}`" 
+        class="text-dark text-weight-bold" 
+      />
+    </q-breadcrumbs>
 
     <div v-if="order" class="order-detail">
-      <!-- Основная информация -->
+      <!-- Заголовок -->
       <div class="row items-center q-mb-lg">
         <div class="col">
           <div class="text-h1">{{ order.projectName || `Заказ ${order.invoiceNumber}` }}</div>
         </div>
       </div>
 
-      <!-- Первая строка: Сумма и условия оплаты -->
+      <!-- Основная информация -->
       <div class="row q-col-gutter-md q-mb-lg">
-        <div class="col-4">
+        <div class="col-12 col-sm-4">
           <div class="text-h5">Общая сумма</div>
           <div class="text-h4">{{ formatCurrency(order.amount) }}</div>
         </div>
-        <div class="col-4">
+        <div class="col-12 col-sm-4">
           <div class="text-h5">Условия оплаты</div>
           <div class="text-h4">{{ order.paymentTerms || 'Не указано' }}</div>
         </div>
       </div>
 
       <div class="row q-col-gutter-md q-mb-lg">
-        <div class="col-4">
+        <div class="col-12 col-sm-4">
           <div class="text-h5">Ответственный менеджер</div>
           <div class="text-h4">{{ order.manager || 'Не назначен' }}</div>
         </div>
-        <div class="col-4">
+        <div class="col-12 col-sm-4">
           <q-checkbox 
             v-model="warehouseDS"
             label="Склад DS" 
@@ -126,123 +124,215 @@
 
         <q-tab-panels v-model="activeTab" animated>
           <q-tab-panel name="items">
-            <q-table
-              :data="orderItems"
-              :columns="columns"
-              row-key="id"
-              :filter="filter"
-              :pagination.sync="pagination"
-              flat
-              class="no-scroll-table"
-            >
-              <div slot="top" slot-scope="props" class="row items-center full-width">
-                <div class="col-auto">
-                  <q-input
-                    v-model="filter"
-                    placeholder="Поиск..."
-                    dense
-                    clearable
-                    class="q-mr-md"
-                  >
-                    <div slot="append">
-                      <q-icon name="search" />
-                    </div>
-                  </q-input>
-                </div>
+            <!-- Desktop версия - фильтры и поиск -->
+            <div v-if="!$q.screen.lt.md" class="row items-center justify-between full-width q-gutter-md q-mb-md">
+              <!-- Поиск -->
+              <div class="col-auto">
+                <q-input 
+                  v-model="filter" 
+                  placeholder="Поиск по артикулу и коду..." 
+                  dense clearable
+                  outlined 
+                  style="min-width: 250px;"
+                  class="global-search"
+                  text-color="secondary"
+                >
+                  <template v-slot:append>
+                    <q-icon name="search" />
+                  </template>
+                </q-input>
               </div>
 
-              <q-tr slot="body" slot-scope="props" :props="props">
-                <q-td class="text-h5 wrap-content">{{ props.row.article }}</q-td>
-                <q-td class="text-h5 wrap-content">{{ props.row.typicalCode }}</q-td>
-                <q-td class="text-right text-h5 wrap-content">{{ props.row.quantity }}</q-td>
-                <q-td class="text-right text-h5 wrap-content">{{ formatCurrency(props.row.price) }}</q-td>
-                <q-td class="text-right text-h5 wrap-content">{{ props.row.discount }}%</q-td>
-                <q-td class="text-right text-h5 wrap-content">{{ formatCurrency(props.row.discountedPrice) }}</q-td>
-                <q-td class="text-right text-h5 wrap-content">{{ formatCurrency(props.row.totalWithVAT) }}</q-td>
-                <q-td class="text-right wrap-content">
-                  <q-btn icon="edit" flat dense @click="editRow(props.row)" />
-                  <q-btn icon="delete" flat dense @click="openDeleteDialog(props.row)" class="q-ml-sm" />
-                </q-td>
-              </q-tr>
+              <!-- Кнопка сброса -->
+              <div class="col-auto">
+                <q-btn 
+                  size="md" 
+                  outline 
+                  label="Сбросить фильтры" 
+                  icon="filter_alt" 
+                  text-color="secondary"
+                  padding="6px 16px" 
+                  @click="resetFilters" 
+                  :disable="!hasActiveFilters"
+                />
+              </div>
 
-              <q-tr slot="bottom-row">
-                <q-td colspan="8" class="text-left">
-                  <q-btn outline label="Добавить строку" icon="add" text-color="secondary" padding="6px 24px" @click="openAddRowDialog"/>
-                </q-td>
-              </q-tr>
+              <!-- Кнопка добавить строку -->
+              <div class="col-auto">
+                <q-btn 
+                  size="md" 
+                  color="primary" 
+                  label="Добавить строку" 
+                  icon="add" 
+                  text-color="dark"
+                  padding="6px 16px" 
+                  @click="openAddRowDialog"
+                />
+              </div>
+            </div>
 
-              <q-tr v-if="orderItems.length > 0" slot="bottom-row" class="text-right text-h3 text-dark">
-                <q-td colspan="3">Итого:</q-td>
-                <q-td>{{ formatCurrency(totalAmount) }}</q-td>
-                <q-td></q-td>
-                <q-td>{{ formatCurrency(totalDiscountedPrice) }}</q-td>
-                <q-td>{{ formatCurrency(totalDiscountedAmountWithVAT) }}</q-td>
-                <q-td></q-td>
-              </q-tr>
+            <!-- Mobile версия - поиск с кнопкой фильтров -->
+            <div v-else class="row items-center q-mb-md">
+              <q-input 
+                v-model="filter" 
+                placeholder="Поиск по артикулу и коду..." 
+                dense clearable
+                outlined 
+                class="full-width"
+                text-color="secondary"
+              >
+                <template v-slot:append>
+                  <q-separator vertical inset class="q-mx-sm" />
+                  <q-btn 
+                    flat 
+                    dense 
+                    icon="filter_alt" 
+                    color="secondary"
+                    @click="showMobileFiltersDialog = true"
+                    class="q-pr-none"
+                  >
+                    <q-badge v-if="hasActiveFilters" color="accent" floating class="q-pa-xs" style="top: -5px; right: -5px">
+                      {{ getTotalActiveFiltersCount }}
+                    </q-badge>
+                  </q-btn>
+                  <q-icon name="search" class="q-ml-sm" />
+                </template>
+              </q-input>
+            </div>
+
+            <!-- Desktop таблица -->
+            <q-table
+              v-if="!$q.screen.lt.md"
+              :data="paginatedItems"
+              :columns="columns"
+              row-key="id"
+              :pagination="pagination"
+              flat
+              class="no-scroll-table"
+              hide-pagination
+            >
+              <!-- Заголовки с фильтрами -->
+              <template v-slot:header="props">
+                <q-tr :props="props">
+                  <q-th v-for="col in props.cols" :key="col.name" :props="props" class="text-h3 multi-line-header">
+                    <div class="column full-width items-center">
+                      <div class="row items-center justify-between full-width q-px-xs">
+                        <div class="row items-center">
+                          <span class="header-label">{{ col.label }}</span>
+                        </div>
+                        <div class="row items-center">
+                          <filter-button
+                            v-if="col.name !== 'actions'"
+                            :column-label="col.label"
+                            :column-field="col.field"
+                            :is-sortable="isSortableColumn(col.field)"
+                            :current-sort="sortOrders[col.field]"
+                            :filter-options="getFilterOptions(col.field)"
+                            :selected-filters="columnFilters[col.field]"
+                            :max-height="200"
+                            @sort-changed="handleSortChanged"
+                            @filters-changed="(filters) => updateColumnFilters(col.field, filters)"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </q-th>
+                </q-tr>
+              </template>
+
+              <!-- Тело таблицы -->
+              <template v-slot:body="props">
+                <order-item-table-row 
+                  :props="props"
+                  @edit="editRow"
+                  @delete="openDeleteDialog"
+                />
+              </template>
+
+              <!-- Итоги -->
+              <template v-slot:bottom-row v-if="paginatedItems.length > 0">
+                <q-tr class="text-right text-h3 text-dark">
+                  <q-td colspan="3">Итого:</q-td>
+                  <q-td>{{ formatCurrency(totalAmount) }}</q-td>
+                  <q-td></q-td>
+                  <q-td>{{ formatCurrency(totalDiscountedPrice) }}</q-td>
+                  <q-td>{{ formatCurrency(totalDiscountedAmountWithVAT) }}</q-td>
+                  <q-td></q-td>
+                </q-tr>
+              </template>
+
+              <!-- Нет данных -->
               <template v-slot:no-data>
-    <div class="full-width row flex-center text-h4 q-pa-lg">
-      <q-icon name="search_off" size="2em" class="q-mr-sm" />
-      Данные не найдены
-    </div>
-  </template>
-    <template v-slot:bottom>
-    <div class="row items-center justify-between full-width q-pa-md" v-if="orderItems.length > 0">
-      <div class="text-h5">
-        Всего записей: {{ orderItems.length }}
-      </div>
-      
-      <div class="row items-center">
-        <q-btn 
-          icon="first_page" 
-          flat 
-          round 
-          dense
-          :disable="pagination.page === 1"
-          @click="pagination.page = 1"
-        />
-        <q-btn 
-          icon="chevron_left" 
-          flat 
-          round 
-          dense
-          :disable="pagination.page === 1"
-          @click="pagination.page--"
-        />
-        
-        <span class="q-mx-md text-h5">
-          Страница {{ pagination.page }} из {{ Math.ceil(orderItems.length / pagination.rowsPerPage) }}
-        </span>
-        
-        <q-btn 
-          icon="chevron_right" 
-          flat 
-          round 
-          dense
-          :disable="pagination.page >= Math.ceil(orderItems.length / pagination.rowsPerPage)"
-          @click="pagination.page++"
-        />
-        <q-btn 
-          icon="last_page" 
-          flat 
-          round 
-          dense
-          :disable="pagination.page >= Math.ceil(orderItems.length / pagination.rowsPerPage)"
-          @click="pagination.page = Math.ceil(orderItems.length / pagination.rowsPerPage)"
-        />
-      </div>
-      
-      <q-select
-        v-model="pagination.rowsPerPage"
-        :options="[5, 10, 25, 50]"
-        label="Строк:"
-        dense
-        borderless
-        style="min-width: 120px;"
-        @update:model-value="pagination.page = 1"
-      />
-    </div>
-  </template>
+                <no-data-placeholder :has-active-filters="hasActiveFilters" />
+              </template>
+
+              <!-- Пагинация -->
+              <template v-slot:bottom>
+                <pagination
+                  v-if="filteredItems.length > 0"
+                  :current-page="pagination.page"
+                  :rows-per-page="pagination.rowsPerPage"
+                  :total-items="filteredItems.length"
+                  :rows-per-page-options="[5, 10, 25, 50]"
+                  variant="desktop"
+                  @page-changed="onPageChanged"
+                  @rows-per-page-changed="onRowsPerPageChanged"
+                />
+              </template>
             </q-table>
+
+            <!-- Mobile версия -->
+<div v-else>
+  <div class="row justify-center q-mb-md">
+    <q-btn 
+      size="md" 
+      color="primary" 
+      label="Добавить позицию" 
+      icon="add" 
+      text-color="dark"
+      class="full-width"
+      @click="openAddRowDialog"
+    />
+  </div>
+
+  <q-separator />
+
+  <q-list class="q-gutter-y-md" separator>
+    <order-item-mobile-card
+      v-for="item in paginatedItems"
+      :key="item.id"
+      :item="item"
+      @edit="editRow"
+      @delete="openDeleteDialog"
+    />
+    
+    <!-- Блок с итогами - всегда последний -->
+    <order-total-mobile-card
+      :total-amount="totalAmount"
+      :total-discounted-price="totalDiscountedPrice"
+      :total-discounted-amount-with-v-a-t="totalDiscountedAmountWithVAT"
+      :total-items="filteredItems.length"
+    />
+  </q-list>
+
+  <!-- Пагинация -->
+  <pagination
+    v-if="filteredItems.length > 0"
+    :current-page="pagination.page"
+    :rows-per-page="pagination.rowsPerPage"
+    :total-items="filteredItems.length"
+    :rows-per-page-options="[5, 10, 25]"
+    variant="mobile"
+    @page-changed="onPageChanged"
+    @rows-per-page-changed="onRowsPerPageChanged"
+  />
+
+  <!-- Нет данных -->
+  <no-data-placeholder 
+    v-if="filteredItems.length === 0"
+    :has-active-filters="hasActiveFilters" 
+  />
+</div>
           </q-tab-panel>
 
           <q-tab-panel name="conditions">
@@ -258,6 +348,108 @@
       <q-spinner size="50px" color="primary" />
     </div>
 
+    <!---->
+
+    <!-- Диалог мобильных фильтров -->
+    <BaseDialog 
+      v-model="showMobileFiltersDialog" 
+      title="Фильтры" 
+      :show-cancel="false" 
+      :show-confirm="false"
+      card-style="min-width: 80vw; max-width: 500px; max-height: 70vh;" 
+      :content-class="'q-px-none'"
+    >
+      <template #content>
+        <q-scroll-area style="height: 50vh;" class="q-pr-sm">
+          <div class="column q-gutter-y-md q-pb-md q-px-md">
+            <!-- Фильтр по артикулу -->
+            <div class="row items-center justify-between">
+              <span class="text-h5">Артикул</span>
+              <filter-button
+                column-label="Артикул"
+                column-field="article"
+                :is-sortable="isSortableColumn('article')"
+                :current-sort="sortOrders.article"
+                :filter-options="getFilterOptions('article')"
+                :selected-filters="columnFilters.article"
+                :max-height="200"
+                @sort-changed="handleSortChanged"
+                @filters-changed="(filters) => updateColumnFilters('article', filters)"
+              />
+            </div>
+
+            <!-- Фильтр по типовому коду -->
+            <div class="row items-center justify-between">
+              <span class="text-h5">Типовой код</span>
+              <filter-button
+                column-label="Типовой код"
+                column-field="typicalCode"
+                :is-sortable="isSortableColumn('typicalCode')"
+                :current-sort="sortOrders.typicalCode"
+                :filter-options="getFilterOptions('typicalCode')"
+                :selected-filters="columnFilters.typicalCode"
+                :max-height="200"
+                @sort-changed="handleSortChanged"
+                @filters-changed="(filters) => updateColumnFilters('typicalCode', filters)"
+              />
+            </div>
+
+            <!-- Фильтр по количеству -->
+            <div class="row items-center justify-between">
+              <span class="text-h5">Количество</span>
+              <filter-button
+                column-label="Количество"
+                column-field="quantity"
+                :is-sortable="isSortableColumn('quantity')"
+                :current-sort="sortOrders.quantity"
+                :filter-options="getFilterOptions('quantity')"
+                :selected-filters="columnFilters.quantity"
+                :max-height="200"
+                @sort-changed="handleSortChanged"
+                @filters-changed="(filters) => updateColumnFilters('quantity', filters)"
+              />
+            </div>
+
+            <!-- Фильтр по цене -->
+            <div class="row items-center justify-between">
+              <span class="text-h5">Цена</span>
+              <filter-button
+                column-label="Цена"
+                column-field="price"
+                :is-sortable="isSortableColumn('price')"
+                :current-sort="sortOrders.price"
+                :filter-options="getFilterOptions('price')"
+                :selected-filters="columnFilters.price"
+                :max-height="200"
+                @sort-changed="handleSortChanged"
+                @filters-changed="(filters) => updateColumnFilters('price', filters)"
+              />
+            </div>
+          </div>
+        </q-scroll-area>
+      </template>
+
+      <template #actions>
+        <q-btn 
+          outline 
+          size="md" 
+          text-color="secondary" 
+          label="Сбросить" 
+          icon="refresh" 
+          padding="4px 12px" 
+          @click="resetFilters" 
+        />
+        <q-btn 
+          v-close-popup 
+          size="md" 
+          color="accent" 
+          label="Сохранить" 
+          padding="4px 12px" 
+        />
+      </template>
+    </BaseDialog>
+
+    <!-- Остальные диалоги -->
     <BaseDialog 
       v-model="showProjectNameDialog" 
       title="Название проекта" 
@@ -333,39 +525,78 @@
         </div>
       </template>
     </BaseDialog>
+    <AnimatedInfoCard
+      type="info"
+      title=""
+      message="Точный срок поставки товаров отслеживайте в электронном заказе со статусом «принят в работу» в личном кабинете на платформе driveshub.ru либо уточняйте у логистов ООО «Веда МК»."
+      icon="info"
+      closable
+      animation="slide"
+      :auto-close="10000"
+      @close="handleAutoClose"
+
+    />
   </q-page>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import BaseDialog from '@/components/utilits/BaseDialog.vue'
-import { QTable, QTd, QTr, QTh, QInput, QBtn, QIcon } from 'quasar'
+import FilterButton from '@/components/utilits/FilterButton.vue'
+import Pagination from '@/components/utilits/Pagination.vue'
+import NoDataPlaceholder from '@/components/utilits/NoDataPlaceholder.vue'
+import OrderItemTableRow from '@/components/orders/detail/OrderItemTableRow.vue'
+import OrderItemMobileCard from '@/components/orders/detail/OrderItemMobileCard.vue'
+import AnimatedInfoCard from 'components/utilits/AnimatedInfoCard.vue'
+import OrderTotalMobileCard from '@/components/orders/detail/OrderTotalMobileCard.vue'
 
 export default {
   name: 'OrderDetail',
   components: {
-    QTable,
-    QTd,
-    QTr,
-    QTh,
-    QInput,
-    QBtn,
-    QIcon,
-    BaseDialog
+    BaseDialog,
+    FilterButton,
+    Pagination,
+    NoDataPlaceholder,
+    OrderItemTableRow,
+    OrderItemMobileCard,
+    AnimatedInfoCard,
+    OrderTotalMobileCard
   },
   data() {
     return {
       order: null,
       activeTab: 'items',
-      showProjectNameDialog: false,
-      editedProjectName: '',
+      showMobileFiltersDialog: false,
+      
+      // Фильтры и сортировка
       filter: '',
+      columnFilters: {
+        article: [],
+        typicalCode: [],
+        quantity: [],
+        price: [],
+        discount: [],
+        discountedPrice: [],
+        totalWithVAT: []
+      },
+      sortOrders: {
+        article: null,
+        typicalCode: null,
+        quantity: null,
+        price: null,
+        discount: null,
+        discountedPrice: null,
+        totalWithVAT: null
+      },
+      currentSortColumn: null,
       pagination: {
         page: 1,
         rowsPerPage: 10
       },
-      
-      // Переименованы переменные диалогов
+
+      // Диалоги
+      showProjectNameDialog: false,
+      editedProjectName: '',
       showAddRowDialog: false,
       showEditRowDialog: false,
       showDeleteDialog: false,
@@ -395,7 +626,7 @@ export default {
           label: 'Артикул',
           field: 'article',
           align: 'left',
-          sortable: true,
+          sortable: false,
           headerClasses: 'text-h3 multi-line-header',
           classes: 'text-h5 wrap-content'
         },
@@ -404,7 +635,7 @@ export default {
           label: 'Типовой код', 
           field: 'typicalCode',
           align: 'left',
-          sortable: true,
+          sortable: false,
           headerClasses: 'text-h3 multi-line-header',
           classes: 'text-h5 wrap-content'
         },
@@ -413,7 +644,7 @@ export default {
           label: 'Количество',
           field: 'quantity',
           align: 'right',
-          sortable: true,
+          sortable: false,
           headerClasses: 'text-h3 multi-line-header', 
           classes: 'text-h5 wrap-content'
         },
@@ -422,7 +653,7 @@ export default {
           label: 'Цена за 1 шт. без НДС, УЕ',
           field: 'price',
           align: 'right',
-          sortable: true,
+          sortable: false,
           headerClasses: 'text-h3 multi-line-header',
           classes: 'text-h5 wrap-content'
         },
@@ -431,7 +662,7 @@ export default {
           label: 'Скидка, %',
           field: 'discount',
           align: 'right',
-          sortable: true,
+          sortable: false,
           headerClasses: 'text-h3 multi-line-header',
           classes: 'text-h5 wrap-content'
         },
@@ -440,7 +671,7 @@ export default {
           label: 'Цена со скидкой, 1 шт, без НДС, УЕ',
           field: 'discountedPrice',
           align: 'right',
-          sortable: true,
+          sortable: false,
           headerClasses: 'text-h3 multi-line-header',
           classes: 'text-h5 wrap-content'
         },
@@ -449,7 +680,7 @@ export default {
           label: 'Сумма со скидкой, с НДС, УЕ',
           field: 'totalWithVAT',
           align: 'right',
-          sortable: true,
+          sortable: false,
           headerClasses: 'text-h3 multi-line-header',
           classes: 'text-h5 wrap-content'
         },
@@ -479,18 +710,146 @@ export default {
     orderId() {
       return parseInt(this.$route.params.id)
     },
+    
     orderItems() {
       return this.order?.items || []
     },
+
+    // Фильтрация и сортировка
+    filteredItems() {
+      let items = this.orderItems
+
+      // Глобальный поиск
+      if (this.filter.trim()) {
+        const searchTerm = this.filter.toLowerCase().trim()
+        items = items.filter(item => 
+          item.article.toLowerCase().includes(searchTerm) ||
+          (item.typicalCode && item.typicalCode.toLowerCase().includes(searchTerm))
+        )
+      }
+
+      // Фильтры по колонкам
+      Object.keys(this.columnFilters).forEach(column => {
+        const selectedValues = this.columnFilters[column]
+        if (selectedValues && selectedValues.length > 0) {
+          items = items.filter(item => {
+            const cellValue = item[column]
+            if (!cellValue) return false
+            return selectedValues.includes(cellValue.toString())
+          })
+        }
+      })
+
+      // Сортировка
+      if (this.currentSortColumn && this.sortOrders[this.currentSortColumn]) {
+        const column = this.currentSortColumn
+        const direction = this.sortOrders[column]
+
+        items.sort((a, b) => {
+          let aValue = a[column]
+          let bValue = b[column]
+
+          if (column === 'quantity' || column === 'price' || column === 'discount' || 
+              column === 'discountedPrice' || column === 'totalWithVAT') {
+            aValue = Number(aValue) || 0
+            bValue = Number(bValue) || 0
+          }
+
+          if (direction === 'asc') {
+            return aValue < bValue ? -1 : aValue > bValue ? 1 : 0
+          } else {
+            return aValue > bValue ? -1 : aValue < bValue ? 1 : 0
+          }
+        })
+      }
+
+      return items
+    },
+
+    // Пагинированные данные
+    paginatedItems() {
+      const startIndex = (this.pagination.page - 1) * this.pagination.rowsPerPage
+      const endIndex = startIndex + this.pagination.rowsPerPage
+      return this.filteredItems.slice(startIndex, endIndex)
+    },
+
+    hasActiveFilters() {
+      const hasColumnFilters = Object.values(this.columnFilters).some(values => values && values.length > 0)
+      const hasSorting = Object.values(this.sortOrders).some(sort => sort !== null)
+      return hasColumnFilters || hasSorting || this.filter.trim() !== ''
+    },
+
+    getTotalActiveFiltersCount() {
+      let count = 0
+      
+      // Считаем колонки с активными фильтрами (выбранные значения)
+      Object.values(this.columnFilters).forEach(values => {
+        if (values && values.length > 0) {
+          count++
+        }
+      })
+      
+      // Добавляем сортировки
+      Object.values(this.sortOrders).forEach(sort => {
+        if (sort !== null) {
+          count++
+        }
+      })
+      
+      // Добавляем глобальный поиск
+      if (this.filter.trim() !== '') {
+        count++
+      }
+      
+      return count
+    },
+
+    // Итоговые суммы
     totalAmount() {
-      return this.orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-    },
-    totalDiscountedPrice() {
-      return this.orderItems.reduce((sum, item) => sum + (item.discountedPrice * item.quantity), 0)
-    },
-    totalDiscountedAmountWithVAT() {
-      return this.orderItems.reduce((sum, item) => sum + (item.discountedPrice * item.quantity * 1.2), 0)
-    },
+    return this.filteredItems.reduce((sum, item) => {
+      const price = Number(item.price) || 0
+      const quantity = Number(item.quantity) || 0
+      return sum + (price * quantity)
+    }, 0)
+  },
+  
+  totalDiscountedPrice() {
+    return this.filteredItems.reduce((sum, item) => {
+      const discountedPrice = Number(item.discountedPrice) || 0
+      const quantity = Number(item.quantity) || 0
+      return sum + (discountedPrice * quantity)
+    }, 0)
+  },
+  
+  totalDiscountedAmountWithVAT() {
+  return this.filteredItems.reduce((sum, item) => {
+    const price = Number(item.price) || 0
+    const discount = Number(item.discount) || 0
+    const quantity = Number(item.quantity) || 0
+    
+    // Всегда считаем от базовой цены со скидкой
+    const discountedPrice = price * (1 - discount / 100)
+    const totalWithVAT = discountedPrice * quantity * 1.2
+    
+    console.log('Расчет НДС для item:', { 
+      article: item.article, 
+      price, discount, quantity, 
+      discountedPrice, totalWithVAT 
+    })
+    
+    return sum + totalWithVAT
+  }, 0)
+},
+  
+  // Добавь для отладки
+  debugInfo() {
+    return {
+      orderAmount: this.order?.amount,
+      calculatedTotal: this.totalAmount,
+      itemsCount: this.filteredItems.length,
+      firstItem: this.filteredItems[0]
+    }
+  },
     
     isNewRowValid() {
       return this.newRow.article.trim() !== '' && 
@@ -511,6 +870,96 @@ export default {
   methods: {
     ...mapActions('orders', ['updateOrder', 'completeOrder', 'cancelOrder', 'addOrder']),
 
+    // Методы пагинации
+    onPageChanged(page) {
+      this.pagination.page = page
+    },
+
+    onRowsPerPageChanged(rowsPerPage) {
+      this.pagination.rowsPerPage = rowsPerPage
+      this.pagination.page = 1
+    },
+
+    // Методы фильтрации и сортировки
+    updateColumnFilters(field, filters) {
+      this.columnFilters[field] = filters
+      this.pagination.page = 1
+    },
+
+    handleSortChanged({ field, direction }) {
+      this.setSort(field, direction)
+    },
+
+    setSort(column, direction) {
+      Object.keys(this.sortOrders).forEach(key => {
+        if (key !== column) {
+          this.sortOrders[key] = null
+        }
+      })
+
+      this.sortOrders[column] = direction
+      this.currentSortColumn = direction ? column : null
+      this.pagination.page = 1
+    },
+
+    resetFilters() {
+      this.columnFilters = {
+        article: [],
+        typicalCode: [],
+        quantity: [],
+        price: [],
+        discount: [],
+        discountedPrice: [],
+        totalWithVAT: []
+      }
+      this.sortOrders = {
+        article: null,
+        typicalCode: null,
+        quantity: null,
+        price: null,
+        discount: null,
+        discountedPrice: null,
+        totalWithVAT: null
+      }
+      this.currentSortColumn = null
+      this.filter = ''
+      this.pagination.page = 1
+      this.showMobileFiltersDialog = false
+    },
+
+    getUniqueValues(field) {
+      const items = this.orderItems
+      const seen = new Set()
+      const values = []
+
+      items.forEach(item => {
+        const value = item[field]
+        if (value != null && value !== '') {
+          const normalizedValue = value.toString().trim()
+          if (!seen.has(normalizedValue)) {
+            seen.add(normalizedValue)
+            values.push(normalizedValue)
+          }
+        }
+      })
+
+      return values.sort()
+    },
+
+    getFilterOptions(field) {
+      const values = this.getUniqueValues(field)
+      return values.map(value => ({
+        label: value.toString(),
+        value: value
+      }))
+    },
+
+    isSortableColumn(field) {
+      const sortableColumns = ['article', 'typicalCode', 'quantity', 'price', 'discount', 'discountedPrice', 'totalWithVAT']
+      return sortableColumns.includes(field)
+    },
+
+    // Остальные методы остаются без изменений
     formatCurrency(amount) {
       if (!amount) return '0 ₽'
       return new Intl.NumberFormat('ru-RU', {
@@ -520,31 +969,27 @@ export default {
       }).format(amount)
     },
 
-    // Методы для работы с проектом
+    // ... остальные методы без изменений
     editProjectName() {
       this.editedProjectName = this.order.projectName || ''
       this.showProjectNameDialog = true
     },
 
-  async updateWarehouseDS(value) {
-  try {
-    const booleanValue = Boolean(value)
-    const updatedOrder = {
-      ...this.order,
-      warehouseDS: booleanValue
-    }
-    
-    await this.updateOrder(updatedOrder)
-    
-    // Обновляем локальный order
-    this.order.warehouseDS = booleanValue
-    
-    this.showNotification('Настройки склада обновлены', 'positive')
-  } catch (error) {
-    console.error('Error updating warehouse:', error)
-    this.showNotification('Ошибка при обновлении', 'negative')
-  }
-},
+    async updateWarehouseDS(value) {
+      try {
+        const booleanValue = Boolean(value)
+        const updatedOrder = {
+          ...this.order,
+          warehouseDS: booleanValue
+        }
+        
+        await this.updateOrder(updatedOrder)
+        this.order.warehouseDS = booleanValue
+        this.showNotification('Настройки склада обновлены', 'positive')
+      } catch (error) {
+        this.showNotification('Ошибка при обновлении', 'negative')
+      }
+    },
 
     async saveProjectName() {
       try {
@@ -565,7 +1010,6 @@ export default {
       this.editedProjectName = ''
     },
 
-    // Методы для работы со строками таблицы (переименованы)
     openAddRowDialog() {
       this.newRow = {
         article: '',
@@ -578,34 +1022,42 @@ export default {
     },
 
     async addNewRow() {
-      try {
-        const discountedPrice = this.newRow.price * (1 - this.newRow.discount / 100)
-        const totalWithVAT = discountedPrice * this.newRow.quantity * 1.2
-        
-        const newItem = {
-          id: Date.now(),
-          article: this.newRow.article,
-          typicalCode: this.newRow.typicalCode,
-          quantity: this.newRow.quantity,
-          price: this.newRow.price,
-          discount: this.newRow.discount,
-          discountedPrice: Math.round(discountedPrice * 100) / 100,
-          totalWithVAT: Math.round(totalWithVAT * 100) / 100
-        }
-        
-        const updatedOrder = {
-          ...this.order,
-          items: [...this.order.items, newItem]
-        }
-        
-        await this.updateOrder(updatedOrder)
-        this.order = updatedOrder
-        this.showAddRowDialog = false
-        this.showNotification('Новая позиция добавлена', 'positive')
-      } catch (error) {
-        this.showNotification('Ошибка при добавлении позиции', 'negative')
-      }
-    },
+  try {
+    const discountedPrice = this.newRow.price * (1 - this.newRow.discount / 100)
+    const totalWithVAT = discountedPrice * this.newRow.quantity * 1.2
+    
+    const newItem = {
+      id: Date.now(),
+      article: this.newRow.article,
+      typicalCode: this.newRow.typicalCode,
+      quantity: this.newRow.quantity,
+      price: this.newRow.price,
+      discount: this.newRow.discount,
+      discountedPrice: Math.round(discountedPrice * 100) / 100,
+      totalWithVAT: Math.round(totalWithVAT * 100) / 100
+    }
+    
+    const updatedItems = [...this.order.items, newItem]
+    
+    // ДОБАВЬ ЭТУ СТРОКУ - пересчет общей суммы заказа
+    const newTotalAmount = updatedItems.reduce((sum, item) => 
+      sum + (item.price * item.quantity), 0
+    )
+    
+    const updatedOrder = {
+      ...this.order,
+      items: updatedItems,
+      amount: newTotalAmount // ОБНОВЛЯЕМ ОБЩУЮ СУММУ
+    }
+    
+    await this.updateOrder(updatedOrder)
+    this.order = updatedOrder
+    this.showAddRowDialog = false
+    this.showNotification('Новая позиция добавлена', 'positive')
+  } catch (error) {
+    this.showNotification('Ошибка при добавлении позиции', 'negative')
+  }
+},
 
     cancelAddRow() {
       this.showAddRowDialog = false
@@ -624,38 +1076,44 @@ export default {
     },
 
     async saveEditedRow() {
-      try {
-        const discountedPrice = this.editedRow.price * (1 - this.editedRow.discount / 100)
-        const totalWithVAT = discountedPrice * this.editedRow.quantity * 1.2
-        
-        const updatedItems = this.order.items.map(item => 
-          item.id === this.editedRow.id 
-            ? {
-                ...item,
-                article: this.editedRow.article,
-                typicalCode: this.editedRow.typicalCode,
-                quantity: this.editedRow.quantity,
-                price: this.editedRow.price,
-                discount: this.editedRow.discount,
-                discountedPrice: Math.round(discountedPrice * 100) / 100,
-                totalWithVAT: Math.round(totalWithVAT * 100) / 100
-              }
-            : item
-        )
-        
-        const updatedOrder = {
-          ...this.order,
-          items: updatedItems
-        }
-        
-        await this.updateOrder(updatedOrder)
-        this.order = updatedOrder
-        this.showEditRowDialog = false
-        this.showNotification('Позиция обновлена', 'positive')
-      } catch (error) {
-        this.showNotification('Ошибка при обновлении позиции', 'negative')
-      }
-    },
+  try {
+    const discountedPrice = this.editedRow.price * (1 - this.editedRow.discount / 100)
+    const totalWithVAT = discountedPrice * this.editedRow.quantity * 1.2
+    
+    const updatedItems = this.order.items.map(item => 
+      item.id === this.editedRow.id 
+        ? {
+            ...item,
+            article: this.editedRow.article,
+            typicalCode: this.editedRow.typicalCode,
+            quantity: this.editedRow.quantity,
+            price: this.editedRow.price,
+            discount: this.editedRow.discount,
+            discountedPrice: Math.round(discountedPrice * 100) / 100,
+            totalWithVAT: Math.round(totalWithVAT * 100) / 100
+          }
+        : item
+    )
+    
+    // ДОБАВЬ ЭТУ СТРОКУ - пересчет общей суммы заказа
+    const newTotalAmount = updatedItems.reduce((sum, item) => 
+      sum + (item.price * item.quantity), 0
+    )
+    
+    const updatedOrder = {
+      ...this.order,
+      items: updatedItems,
+      amount: newTotalAmount // ОБНОВЛЯЕМ ОБЩУЮ СУММУ
+    }
+    
+    await this.updateOrder(updatedOrder)
+    this.order = updatedOrder
+    this.showEditRowDialog = false
+    this.showNotification('Позиция обновлена', 'positive')
+  } catch (error) {
+    this.showNotification('Ошибка при обновлении позиции', 'negative')
+  }
+},
 
     cancelEditRow() {
       this.showEditRowDialog = false
@@ -667,25 +1125,31 @@ export default {
     },
 
     async confirmDeleteRow() {
-      try {
-        if (this.rowToDelete) {
-          const updatedItems = this.order.items.filter(item => item.id !== this.rowToDelete.id)
-          
-          const updatedOrder = {
-            ...this.order,
-            items: updatedItems
-          }
-          
-          await this.updateOrder(updatedOrder)
-          this.order = updatedOrder
-          this.showDeleteDialog = false
-          this.rowToDelete = null
-          this.showNotification('Позиция удалена', 'negative')
-        }
-      } catch (error) {
-        this.showNotification('Ошибка при удалении позиции', 'negative')
+  try {
+    if (this.rowToDelete) {
+      const updatedItems = this.order.items.filter(item => item.id !== this.rowToDelete.id)
+      
+      // ДОБАВЬ ЭТУ СТРОКУ - пересчет общей суммы заказа
+      const newTotalAmount = updatedItems.reduce((sum, item) => 
+        sum + (item.price * item.quantity), 0
+      )
+      
+      const updatedOrder = {
+        ...this.order,
+        items: updatedItems,
+        amount: newTotalAmount // ОБНОВЛЯЕМ ОБЩУЮ СУММУ
       }
-    },
+      
+      await this.updateOrder(updatedOrder)
+      this.order = updatedOrder
+      this.showDeleteDialog = false
+      this.rowToDelete = null
+      this.showNotification('Позиция удалена', 'negative')
+    }
+  } catch (error) {
+    this.showNotification('Ошибка при удалении позиции', 'negative')
+  }
+},
 
     cancelDeleteRow() {
       this.showDeleteDialog = false
@@ -750,20 +1214,32 @@ export default {
     },
 
     loadOrder() {
-  const orderId = parseInt(this.$route.params.id)
-  const order = this.getOrderById(orderId)
-  
-  if (order) {
-    this.order = { 
-      ...order,
-      items: order.items || [],
-      warehouseDS: Boolean(order.warehouseDS)
+      const orderId = parseInt(this.$route.params.id)
+      const order = this.getOrderById(orderId)
+      
+      if (order) {
+        this.order = { 
+          ...order,
+          items: order.items || [],
+          warehouseDS: Boolean(order.warehouseDS)
+        }
+      } else {
+        this.showNotification('Заказ не найден', 'negative')
+        this.$router.push('/orders')
+      }
+    },
+
+        handleClose() {
+      console.log('Плашка закрыта')
+    },
+    
+    handleAutoClose() {
+      console.log('Автоматическое закрытие')
+    },
+    
+    confirmAction() {
+      console.log('Действие подтверждено')
     }
-  } else {
-    this.showNotification('Заказ не найден', 'negative')
-    this.$router.push('/orders')
-  }
-}
   },
   mounted() {
     this.loadOrder()
@@ -778,6 +1254,8 @@ export default {
   }
 }
 </script>
+
+<!-- Стили остаются без изменений -->
 
 <style scoped>
 .no-scroll-table {

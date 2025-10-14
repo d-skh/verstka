@@ -14,7 +14,9 @@
                 
 
                 <div class="row items-center justify-between">
-                  <div><q-icon size="sm" outlined name="chat" class="q-pr-sm" />Вопросы</div>
+                  <router-link to="/support">
+  <div><q-icon size="sm" outlined name="chat" class="q-pr-sm" />Вопросы</div>
+</router-link>
                   <q-btn size="md" color="primary" icon="add_comment" text-color="dark" padding="8px 12px" @click="handleAddQuestion = true"/>
                 </div>
                 <BaseDialog
@@ -67,7 +69,9 @@
           <q-card>
             <q-card-section>
               <q-item class="text-h2 q-pt-none" q-pa-none>
-                <div><q-icon size="sm" outlined name="shopping_cart" class="q-pr-sm" />Заказы</div>
+                <router-link to="/orders">
+  <div><q-icon size="sm" outlined name="shopping_cart" class="q-pr-sm" />Заказы</div>
+</router-link>
               </q-item>
               <q-list dense>
                 <q-item v-for="(item, index) in orders" :key="index" class="text-h4"
@@ -105,7 +109,9 @@
             <q-item class="text-h2 q-pt-none">
               <q-item-section>
                 <div class="row items-center justify-between">
-                  <div><q-icon size="sm" outlined name="memory" class="q-pr-sm" />Устройства</div>
+                  <router-link to="/devices">
+  <div><q-icon size="sm" outlined name="memory" class="q-pr-sm" />Устройства</div>
+</router-link>
                   <!--<q-btn dense text-color="secondary" unelevated color="primary" class="sm content_dv-btn-1"
                     @click="handleAddQuestion = true">
                     <span class="content_dv-btn-1_text q-mr-md">Создать вопрос</span>

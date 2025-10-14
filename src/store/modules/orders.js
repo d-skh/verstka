@@ -209,6 +209,10 @@ const actions = {
     return Promise.resolve(state.orders)
   },
 
+  deleteOrder({ commit }, orderId) {
+    commit('DELETE_ORDER', orderId)
+  },
+
   loadOrders({ commit }) {
     const stored = loadFromStorage()
     if (stored) {

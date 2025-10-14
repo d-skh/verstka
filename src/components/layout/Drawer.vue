@@ -100,7 +100,7 @@
                 <!-- Подменю -->
                 <q-slide-transition :key="`submenu-${item.id}`">
                   <div v-show="activeMenu === item.id && !miniState">
-                    <q-list dense separator class="menu-dropdown">
+                    <q-list dense class="menu-dropdown">
                       <router-link 
   v-for="subItem in item.children" 
   :key="subItem.id" 

@@ -21,6 +21,7 @@
   --q-tertiary: #ADB5BD;
   --q-link: #c9060A;
   --q-neutral: #eef0f4;
+  --q-color-info-bg:#DEF7FC;
 }
 
 .body--dark {
@@ -33,6 +34,8 @@
     --q-color-negative: #C10015 !important;
     --q-color-info: #31CCEC !important;
     --q-color-warning: #F2C037 !important;
+
+    --q-color-info-bg:#414141;
 
     --q-bg-primary: #353535;
       --q-bg-dark: #333333;
@@ -66,8 +69,8 @@
   border: var(--q-divider-dark) solid 1px !important;
 }
 
-.q-card {
-  background-color: var(--q-light) !important;
+.q-card, .q-menu {
+  background-color: var(--q-light);
   border: var(--q-divider-light) solid 1px;
 }
 

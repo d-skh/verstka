@@ -1,5 +1,9 @@
 <template>
   <q-page>
+    <q-breadcrumbs class="q-mb-md relative-position text-h4">
+      <q-breadcrumbs-el icon="home" label="Главная" to="/" class="cursor-pointer text-secondary" />
+      <q-breadcrumbs-el icon="account_circle" label="Профиль" to="/profile" class="text-dark text-weight-bold" />
+    </q-breadcrumbs>
     <div class="text-h1 q-mb-md">
       <q-icon name="account_circle" size="30px" color="dark"/>
       Профиль

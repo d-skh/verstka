@@ -13,7 +13,7 @@
         <theme-toggle />
         <q-btn  flat dense icon="help" />
         <q-btn c flat dense icon="notifications">
-          <q-badge floating color="red" transparent v-if="totalCount > 0">
+          <q-badge floating color="accent" v-if="totalCount > 0">
           {{ totalCount }}
         </q-badge>
         </q-btn>
@@ -53,7 +53,7 @@
         <q-tooltip>
       Уведомления
     </q-tooltip>
-        <q-badge floating color="red" transparent v-if="totalCount > 0">
+        <q-badge floating color="accent" v-if="totalCount > 0">
           {{ totalCount }}
         </q-badge>
       </q-btn>
