@@ -159,6 +159,10 @@
 
   }
 
+  .parent-active {
+  @include open-sans(700, 14px, var(--q-color-dark));
+}
+
   .q-focus-helper {
     display: none !important;
   }

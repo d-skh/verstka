@@ -82,7 +82,7 @@
               <!-- Пункты с подменю -->
               <template v-else-if="item.hasChildren">
                 <!-- Родительский пункт -->
-                <q-item :key="item.id" clickable v-ripple @click="toggleMenu(item.id)">
+                <q-item :key="item.id" clickable v-ripple @click="toggleMenu(item.id)" ::class="{ 'is-active': isParentActive(item) }">
                   <q-item-section avatar>
                     <q-icon :name="item.icon" />
                   </q-item-section>
@@ -308,7 +308,23 @@ export default {
 
     toggleMenu(menuId) {
       this.activeMenu = this.activeMenu === menuId ? null : menuId
-    }
+    },
+
+    isParentActive(item) {
+  if (!item.children) return false;
+  
+  return item.children.some(child => {
+    if (!child.to) return false;
+    
+    // Точное совпадение маршрута
+    if (this.$route.path === child.to) return true;
+    
+    // Для вложенных маршрутов (опционально)
+    if (this.$route.path.startsWith(child.to + '/')) return true;
+    
+    return false;
+  });
+}
   }
 }
 </script>

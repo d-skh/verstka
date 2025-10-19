@@ -107,7 +107,7 @@
                     <q-item-section>Завершить заказ</q-item-section>
                   </q-item>
 
-                  <q-item clickable v-close-popup @click="cancelOrderAction"
+                  <q-item clickable class="text-negative" v-close-popup @click="cancelOrderAction"
                     :disable="order.status === 'cancelled' || order.status === 'completed'">
                     <q-item-section avatar>
                       <q-icon name="arrow_back" />
