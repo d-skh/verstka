@@ -1,6 +1,8 @@
 // app global css in SCSS form
 @import './quasar.variables.scss';
 @import './custom-theme.scss';
+@import './animations.scss';
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
 // Mixins для повторяющихся стилей
 @mixin open-sans($weight: 400, $size: 14px, $color: var(--q-color-secondary)) {
@@ -30,6 +32,24 @@
   color: var(--q-light);
 }
 
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0; /* Важно для flex-контейнеров */
+}
+
+.no-wrap {
+  flex-wrap: nowrap;
+}
+
+.flex-shrink {
+  flex-shrink: 0; /* Иконка не сжимается */
+}
+
+.lt-sm-full-width {
+  width: 100%;
+}
 
 .wrap-header {
   white-space: normal !important;
@@ -70,11 +90,11 @@
 }
 
 .text-h3 {
-  @include open-sans(700, 16px, var(--q-color-secondary));
+  @include open-sans(700, 18px, var(--q-color-secondary));
 }
 
 .text-h4 {
-  @include open-sans(400, 14px, var(--q-color-secondary));
+  @include open-sans(400, 16px, var(--q-color-secondary));
 }
 
 .text-h5 {
@@ -170,6 +190,14 @@
   @media (max-width: 599px) {
     max-height: auto;
   }
+}
+
+.q-tab-panels {
+    background: transparent !important;
+}
+
+.q-tab-panel {
+    background: transparent !important;
 }
 
 .q-drawer--mini {
@@ -503,6 +531,134 @@ a {
   text-decoration: none;
 }
 
+.glass-horizontal-tabs {
+  background: transparent;
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid var(--q-divider-light);
+  
+  .glass-horizontal-tab {
+    text-transform: none !important;
+    flex: 1;
+    padding: 6px 16px;
+    transition: all 0.3s ease;
+    position: relative;
+    background: transparent;
+    border: none;
+    border-radius: 12px 12px 0px 0px;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: var(--q-color-accent);
+      transition: all 0.3s ease;
+      opacity: 0;
+    }
+    
+    .tabs-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .tab-icon {
+      transition: all 0.3s ease;
+    }
+    
+    .tab-label {
+      transition: all 0.3s ease;
+      text-align: center;
+      white-space: nowrap;
+    }
+    
+    &:hover {
+      background: transparent;
+      transform: none;
+      
+      .tab-icon {
+        transform: scale(1.05);
+      }
+      
+      &::after {
+        width: 30%;
+        opacity: 0.5;
+        background: color-mix(in srgb, var(--q-color-secondary) 60%, transparent);
+      }
+    }
+    
+    &.q-tab--active {
+      background: color-mix(in srgb, var(--q-negative) 8%, transparent);
+      box-shadow: none;
+      margin-bottom: -1px;
+      
+      .tab-icon {
+        transform: scale(1.1);
+        color: var(--q-color-accent);
+      }
+      
+      .tab-label {
+        color: var(--q-color-accent);
+        font-weight: 600;
+      }
+      
+      &::after {
+        width: 80%;
+        opacity: 1;
+        background: var(--q-color-accent);
+      }
+    }
+  }
+}
+
+.highlight-left {
+  border-left: 4px var(--q-color-accent) solid;
+}
+
+.body--dark .glass-horizontal-tabs {
+  background: transparent;
+  border-bottom: 1px solid var(--q-divider-dark);
+  
+  .glass-horizontal-tab {
+    
+    &:hover {
+      .tab-icon {
+        color: var(--q-color-secondary);
+      }
+      
+      .tab-label {
+        color: var(--q-color-secondary);
+      }
+      
+      &::after {
+        background: color-mix(in srgb, white 60%, transparent);
+      }
+    }
+    
+    &.q-tab--active {
+     
+      
+      .tab-icon {
+        color: var(--q-color-accent);
+      }
+      
+      .tab-label {
+        color: var(--q-color-accent);
+      }
+      
+      &::after {
+        background: var(--q-color-accent);
+      }
+    }
+  }
+}
 
 .custom-tabs {
   display: flex;
@@ -517,11 +673,7 @@ a {
     transition: all 0.3s ease;
     border-bottom: 3px solid transparent;
   }
-
-
-
 }
-
 
 .custom-tab:first-child {
   border-radius: 24px 0 0 0;
@@ -533,22 +685,34 @@ a {
 }
 
 .custom-tab:hover {
-  background-color: #f5f5f5;
+  color: var(--white);
+  background-color: var(--q-color-accent);
 }
 
 .custom-tab.active {
   color: var(--q-color-accent);
   border-bottom-color: var(--q-color-accent);
-  background-color: rgba(var(--q-color-accent), 0.03);
+}
+
+.custom-tab.active:hover {
+  color: var(--white);
+  border-bottom-color: var(--q-white);
+  background-color: var(--q-color-accent);
 }
 
 .tab-content {
   min-height: 300px;
 }
 
+.animated-panel {
+  animation-duration: 0.3s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+}
+
 .tab-panel {
   animation: fadeIn 0.3s ease-in-out;
-  max-height: 300px;
 }
 
 @keyframes fadeIn {
@@ -571,9 +735,9 @@ a {
 
 
 
-.link-card:hover {
+.translate:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--q-color-dark) 5%, transparent) !important;
 }
 
 .quick-links {
@@ -618,7 +782,72 @@ a {
   padding: 8px 4px !important;
 }
 
+// Стили для вкладок статусов доставки
+.delivery-status-tabs {
+  background: transparent;
+  border-bottom: 1px solid var(--q-divider-light);
+  
+  .q-tabs__content {
+    justify-content: space-between;
+  }
+}
 
+.delivery-status-tab {
+  flex: 1;
+  min-width: 0;
+  transition: all 0.3s ease;
+  
+  .tab-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .tab-icon {
+    font-size: 24px;
+    color: var(--q-color-secondary);
+
+  }
+  
+  .tab-label {
+    @include open-sans(500, 14px, var(--q-color-secondary));
+    text-align: center;
+
+  }
+  
+  // Состояние при наведении
+  &:hover:not(.q-tab--active) {
+    .tab-icon {
+      color: var(--q-color-accent);
+    }
+    
+    .tab-label {
+      color: var(--q-color-accent);
+    }
+  }
+  
+  // Активное состояние
+  &.q-tab--active {
+    border-bottom: 1px solid var(--q-color-accent);
+    
+    .tab-icon {
+      color: var(--q-color-accent);
+    }
+    
+    .tab-label {
+      @include open-sans(600, 14px, var(--q-color-accent));
+    }
+  }
+  
+  .q-tab__indicator {
+    display: none;
+  }
+}
+
+.border-right{
+  border-right: 1px solid var(--q-divider-light);
+  height: 100%}
 
 .multi-line-header {
   border-right: 1px solid var(--q-divider-light) !important;
@@ -737,5 +966,130 @@ a {
 
   .q-linear-progress {
     border-radius: 4px;
+  }
+}
+
+.status-badge {
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  
+  // Варианты статусов
+  &--warehouse {
+    background: linear-gradient(135deg, var(--warning-light, #FFF3CD), var(--warning-lighter, #FFEAA7));
+    color: var(--warning-dark, #856404);
+    border: 1px solid var(--warning-lighter, #FFEAA7);
+  }
+
+  &--transit {
+    background: linear-gradient(135deg, var(--info-light, #CCE5FF), var(--info-lighter, #99CCFF));
+    color: var(--info-dark, #004085);
+    border: 1px solid var(--info-lighter, #99CCFF);
+  }
+
+  &--delivered {
+    background: linear-gradient(135deg, var(--positive-light, #D4EDDA), var(--positive-lighter, #C3E6CB));
+    color: var(--positive-dark, #155724);
+    border: 1px solid var(--positive-lighter, #C3E6CB);
+  }
+
+  &--error {
+    background: linear-gradient(135deg, var(--negative-light, #F8D7DA), var(--negative-lighter, #F1B0B7));
+    color: var(--negative-dark, #721C24);
+    border: 1px solid var(--negative-lighter, #F1B0B7);
+  }
+
+  // Темная тема
+  .body--dark & {
+    &--warehouse {
+      background: linear-gradient(135deg, #332701, #4D3B00);
+      color: var(--warning, #FFD54F);
+      border-color: #4D3B00;
+    }
+
+    &--transit {
+      background: linear-gradient(135deg, #002851, #003C7A);
+      color: var(--info, #4FC3F7);
+      border-color: #003C7A;
+    }
+
+    &--delivered {
+      background: linear-gradient(135deg, #0D2A1C, #1B4332);
+      color: var(--positive, #81C784);
+      border-color: #1B4332;
+    }
+
+    &--error {
+      background: linear-gradient(135deg, #3C0B0F, #5A1118);
+      color: var(--negative, #F28B82);
+      border-color: #5A1118;
+    }
+  }
+}
+
+// Плашка с акцентной обводкой слева и фоном
+.accent-border-card {
+  padding: 16px;
+  background: var(--q-bg-primary, #F8F9FA);
+  border-radius: 12px;
+  border-left: 4px solid var(--q-color-accent, #C9060A);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--q-bg-dark, #E9ECEF);
+    transform: translateY(-1px);
+  }
+
+  .body--dark & {
+    background: var(--q-bg-primary, #1A1D21);
+    
+    &:hover {
+      background: var(--q-bg-dark, #2A2D32);
+    }
+  }
+}
+
+// Фон с акцентным цветом и прозрачностью
+.accent-bg-transparent {
+  background: rgba(var(--q-color-accent-rgb, 201, 6, 10), 0.1);
+  border-radius: 8px;
+  padding: 8px 12px;
+  
+  .body--dark & {
+    background: rgba(var(--q-color-accent-rgb, 255, 82, 82), 0.15);
+  }
+}
+
+// Основной фон с скруглением
+.primary-bg-rounded {
+  background: var(--q-bg-primary, #F8F9FA);
+  border-radius: 12px;
+  padding: 16px 12px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--q-bg-dark, #E9ECEF);
+  }
+
+  .body--dark & {
+    background: var(--q-bg-primary, #1A1D21);
+    
+    &:hover {
+      background: var(--q-bg-dark, #2A2D32);
+    }
+  }
+}
+
+// Основной фон с обводкой
+.primary-bg-bordered {
+  @extend .primary-bg-rounded;
+  border: 2px solid var(--q-divider-dark);
+
+  .body--dark & {
+    border-color: var(--q-divider-dark);
   }
 }

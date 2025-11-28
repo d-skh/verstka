@@ -8,13 +8,17 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, argv) => {
     const isProduction = argv.mode === 'production';
+    const isDeploy = process.env.DEPLOY === 'true';
+    
+    // Определяем publicPath для GitHub Pages
+    const publicPath = isDeploy ? '/verstka/' : '/';
 
     return {
         entry: './src/main.js',
         output: {
             path: path.resolve(__dirname, 'dist'),
             filename: isProduction ? 'js/[name].[contenthash].js' : 'js/[name].js',
-            publicPath: '/'
+            publicPath: publicPath
         },
         resolve: {
             extensions: ['.js', '.vue', '.json'],
@@ -55,7 +59,6 @@ module.exports = (env, argv) => {
                         'sass-loader'
                     ]
                 },
-                // УДАЛЕНО правило для .sass, так как используем SCSS
                 {
                     test: /\.styl$/,
                     use: [
@@ -70,7 +73,7 @@ module.exports = (env, argv) => {
                     ]
                 },
                 {
-                    test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                    test: /\.(png|jpe?g|gif|svg|webp)(\?.*)?$/,
                     loader: 'url-loader',
                     options: {
                         limit: 10000,

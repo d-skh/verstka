@@ -22,6 +22,7 @@
   --q-link: #c9060A;
   --q-neutral: #eef0f4;
   --q-color-info-bg:#DEF7FC;
+  --white:#ffffff;
 }
 
 .body--dark {
@@ -46,6 +47,18 @@
   --q-main: #e0e0e0; // В темной теме текст становится светлым
   --q-tertiary: #8a8a8a;
   --q-link: #ff5252; // Можно сделать ярче для темной темы
+
+ .custom-tab.active {
+    color: var(--white);
+    border-bottom-color: var(--white);
+ }
+
+  .custom-tab.active:hover {
+    color: var(--q-color-accent);
+    background-color: var(--white);
+    border-bottom-color: var(--q-color-accent);
+ }
+
 }
 
 .q-layout,

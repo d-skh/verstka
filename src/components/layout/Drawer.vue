@@ -174,7 +174,8 @@ export default {
             { id: 'store-1', label: 'Баланс', to: '/store/balance' },
             { id: 'store-2', label: 'Контракты', to: '/store/contracts' },
             { id: 'store-3', label: 'Мои заказы', to: '/orders' },
-            { id: 'store-4', label: 'Коммерческое предложение', to: '/store/commerce' }
+            { id: 'store-4', label: 'Коммерческое предложение', to: '/store/commerce' },
+            { id: 'store-5', label: 'Статусы отгрузок', to: '/delivery' },
           ]
         },
         {

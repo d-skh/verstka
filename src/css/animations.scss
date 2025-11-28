@@ -1,0 +1,795 @@
+// =============================================
+// 10 АНИМАЦИЙ ОТ ПРОСТЫХ К СЛОЖНЫМ
+// =============================================
+
+.animate-card {
+  animation: cardAppear 0.3s ease-out both;
+}
+
+@keyframes cardAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Простая fade анимация
+.animate1 {
+  animation: simpleFade 0.6s ease-in-out both;
+}
+
+@keyframes simpleFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Slide in с bounce
+.animate2 {
+  animation: slideBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+}
+
+@keyframes slideBounce {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  70% {
+    transform: translateX(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Scale pulse эффект
+.animate3 {
+  animation: scalePulse 0.7s ease-out both;
+}
+
+@keyframes scalePulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// 3D flip анимация
+.animate4 {
+  animation: flip3D 0.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+  transform-style: preserve-3d;
+}
+
+@keyframes flip3D {
+  0% {
+    transform: perspective(400px) rotateY(90deg);
+    opacity: 0;
+  }
+  40% {
+    transform: perspective(400px) rotateY(-20deg);
+  }
+  60% {
+    transform: perspective(400px) rotateY(10deg);
+    opacity: 1;
+  }
+  80% {
+    transform: perspective(400px) rotateY(-5deg);
+  }
+  100% {
+    transform: perspective(400px) rotateY(0deg);
+  }
+}
+
+// Morphing границы + glow
+.animate5 {
+  animation: morphGlow 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  position: relative;
+}
+
+@keyframes morphGlow {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    box-shadow: 0 0 0 rgba(74, 144, 226, 0);
+  }
+  50% {
+    transform: scale(1.05);
+    border-radius: 53% 47% 43% 57% / 51% 39% 61% 49%;
+    box-shadow: 0 0 40px rgba(74, 144, 226, 0.4);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Particle wave с clip-path
+.animate6 {
+  animation: particleWave 1.2s cubic-bezier(0.19, 1, 0.22, 1) both;
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: shimmer 1.5s ease-in-out 0.3s;
+  }
+}
+
+@keyframes particleWave {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+  }
+  50% {
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+// Hologram проекция
+.animate7 {
+  animation: hologramProject 1.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, transparent 30%, rgba(148, 0, 211, 0.1) 50%, transparent 70%);
+    background-size: 200% 200%;
+    animation: scanLine 2s ease-in-out 0.5s;
+    border-radius: inherit;
+    opacity: 0;
+  }
+}
+
+@keyframes hologramProject {
+  0% {
+    opacity: 0;
+    transform: perspective(800px) rotateX(45deg) translateZ(100px);
+    filter: hue-rotate(90deg) brightness(2) blur(5px);
+  }
+  60% {
+    filter: hue-rotate(0) brightness(1.5) blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(800px) rotateX(0) translateZ(0);
+    filter: hue-rotate(0) brightness(1) blur(0);
+  }
+}
+
+@keyframes scanLine {
+  0% {
+    background-position: -200% -200%;
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.5;
+  }
+  100% {
+    background-position: 200% 200%;
+    opacity: 0;
+  }
+}
+
+// Простая голографическая анимация с фейдом
+.animate-simple-holo {
+  animation: simpleHoloFade 0.8s ease-out both;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.2) 50%, transparent 60%);
+    animation: simpleScan 1s ease-in-out 0.3s;
+    border-radius: inherit;
+    opacity: 0;
+  }
+}
+
+@keyframes simpleHoloFade {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes simpleScan {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+// Hologram проекция с фейдом
+.animate7-fade {
+  animation: hologramFade 1.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+    background-size: 200% 200%;
+    animation: scanLine 2s ease-in-out 0.5s;
+    border-radius: inherit;
+    opacity: 0;
+  }
+}
+
+@keyframes hologramFade {
+  0% {
+    opacity: 0;
+    transform: perspective(800px) translateZ(100px);
+    filter: brightness(0.5) blur(10px);
+  }
+  40% {
+    opacity: 0.7;
+    filter: brightness(1.2) blur(3px);
+  }
+  60% {
+    opacity: 1;
+    transform: perspective(800px) translateZ(20px);
+    filter: brightness(1.3) blur(1px);
+  }
+  80% {
+    filter: brightness(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(800px) translateZ(0);
+    filter: brightness(1) blur(0);
+  }
+}
+
+@keyframes scanLine {
+  0% {
+    background-position: -200% -200%;
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.5;
+  }
+  100% {
+    background-position: 200% 200%;
+    opacity: 0;
+  }
+}
+
+// Neon glitch эффект
+.animate8 {
+  animation: neonGlitch 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  position: relative;
+}
+
+@keyframes neonGlitch {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+    text-shadow: 
+      0.05em 0 0 rgba(255, 0, 0, 0.75),
+      -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
+      -0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  15% {
+    text-shadow: 
+      -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+      0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+      -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  30% {
+    transform: translateX(20px);
+    text-shadow: 
+      0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+      0.05em 0 0 rgba(0, 255, 0, 0.75),
+      0 -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  45% {
+    text-shadow: 
+      -0.025em 0 0 rgba(255, 0, 0, 0.75),
+      -0.025em -0.025em 0 rgba(0, 255, 0, 0.75),
+      -0.025em -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    text-shadow: none;
+  }
+}
+
+// Liquid bubble эффект
+.animate9 {
+  animation: liquidBubble 1.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes liquidBubble {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(180deg);
+    border-radius: 50%;
+    background: radial-gradient(circle at center, #4ecdc4, #44a08d);
+  }
+  40% {
+    transform: scale(1.2) rotate(90deg);
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    background: radial-gradient(circle at 30% 30%, #4ecdc4, #44a08d);
+  }
+  60% {
+    transform: scale(0.95) rotate(45deg);
+    border-radius: 50% 50% 60% 40% / 60% 40% 60% 40%;
+  }
+  80% {
+    transform: scale(1.05) rotate(10deg);
+    border-radius: 45% 55% 55% 45% / 55% 45% 55% 45%;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+    border-radius: 16px;
+    background: inherit;
+  }
+}
+
+// Квантовая суперпозиция (самая сложная)
+.animate10 {
+  animation: quantumSuperposition 1.6s cubic-bezier(0.77, 0, 0.175, 1) both;
+  position: relative;
+  
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    opacity: 0;
+    animation: quantumOrbit 2s ease-in-out infinite;
+  }
+  
+  &::before {
+    background: conic-gradient(from 0deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #ff6b6b);
+    animation-delay: 0.1s;
+  }
+  
+  &::after {
+    background: conic-gradient(from 180deg, #a363d9, #5b86e5, #36d1dc, #ffb347, #a363d9);
+    animation-delay: 0.2s;
+  }
+}
+
+@keyframes quantumSuperposition {
+  0% {
+    opacity: 0;
+    transform: 
+      scale(0.1) 
+      rotate(360deg) 
+      translateZ(-100px);
+    filter: blur(20px) hue-rotate(0deg);
+  }
+  25% {
+    transform: 
+      scale(1.5) 
+      rotate(270deg) 
+      translateZ(50px);
+    filter: blur(10px) hue-rotate(90deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: 
+      scale(0.8) 
+      rotate(180deg) 
+      translateZ(-30px);
+    filter: blur(5px) hue-rotate(180deg);
+    opacity: 0.9;
+  }
+  75% {
+    transform: 
+      scale(1.1) 
+      rotate(90deg) 
+      translateZ(20px);
+    filter: blur(2px) hue-rotate(270deg);
+    opacity: 1;
+  }
+  100% {
+    transform: 
+      scale(1) 
+      rotate(0) 
+      translateZ(0);
+    filter: blur(0) hue-rotate(360deg);
+    opacity: 1;
+  }
+}
+
+@keyframes quantumOrbit {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    opacity: 0.3;
+    transform: scale(1.1) rotate(90deg);
+  }
+  50% {
+    opacity: 0.1;
+    transform: scale(1.05) rotate(180deg);
+  }
+  75% {
+    opacity: 0.4;
+    transform: scale(1.15) rotate(270deg);
+  }
+}
+
+// =============================================
+// ДОПОЛНИТЕЛЬНЫЕ УТИЛИТЫ
+// =============================================
+
+// Задержки для анимаций
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+
+// Длительности анимаций
+.duration-fast { animation-duration: 0.3s !important; }
+.duration-normal { animation-duration: 0.7s !important; }
+.duration-slow { animation-duration: 1.2s !important; }
+
+// Направления анимаций
+.direction-reverse { animation-direction: reverse; }
+.direction-alternate { animation-direction: alternate; }
+
+// Заполнение анимаций
+.fill-both { animation-fill-mode: both; }
+.fill-forwards { animation-fill-mode: forwards; }
+.fill-backwards { animation-fill-mode: backwards; }
+
+// Плавное появление с белым сиянием
+.animate-glow-fade {
+  animation: glowFade 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.3) 50%, transparent 60%);
+    background-size: 200% 200%;
+    animation: whiteShimmer 2s ease-in-out 0.8s;
+    border-radius: inherit;
+    opacity: 0;
+  }
+}
+
+@keyframes glowFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  70% {
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+  85% {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@keyframes whiteShimmer {
+  0% {
+    background-position: -200% -200%;
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  70% {
+    opacity: 0.4;
+  }
+  100% {
+    background-position: 200% 200%;
+    opacity: 0;
+  }
+}
+
+// Альтернативный вариант с более мягким сиянием
+.animate-soft-glow {
+  animation: softGlowFade 1.4s ease-out both;
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+    animation: gentlePulse 3s ease-in-out 0.5s;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+@keyframes softGlowFade {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  60% {
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes gentlePulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+
+// Вариант с постепенным нарастанием сияния
+.animate-glow-build {
+  animation: glowBuildUp 1.6s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+@keyframes glowBuildUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+    filter: brightness(1) drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1) drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+  60% {
+    filter: brightness(1.1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+  }
+  75% {
+    filter: brightness(1.2) drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+  }
+  85% {
+    filter: brightness(1.1) drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+  }
+}
+
+// Объединение плавного появления и одноцветного голографического эффекта
+.animate-glow-hologram {
+  animation: smoothHologram 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.4) 50%, transparent 60%);
+    background-size: 200% 200%;
+    animation: whiteScan 2s ease-in-out 0.6s;
+    border-radius: inherit;
+    opacity: 0;
+  }
+}
+
+@keyframes smoothHologram {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  60% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+  75% {
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@keyframes whiteScan {
+  0% {
+    background-position: -200% -200%;
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  70% {
+    opacity: 0.3;
+  }
+  100% {
+    background-position: 200% 200%;
+    opacity: 0;
+  }
+}
+
+// Альтернативный вариант с более выраженным голографическим эффектом
+.animate-holo-fade {
+  animation: holoFade 1.6s cubic-bezier(0.19, 1, 0.22, 1) both;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.2) 45%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0.2) 55%,
+      transparent 70%
+    );
+    background-size: 300% 300%;
+    animation: holoBeam 2.5s ease-in-out 0.4s;
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+  }
+}
+
+@keyframes holoFade {
+  0% {
+    opacity: 0;
+    transform: perspective(600px) rotateX(10deg) translateY(30px) scale(0.9);
+    filter: brightness(0.8) blur(2px);
+  }
+  50% {
+    opacity: 1;
+    transform: perspective(600px) rotateX(0) translateY(0) scale(1);
+    filter: brightness(1.1) blur(0);
+  }
+  70% {
+    filter: brightness(1.3);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(600px) rotateX(0) translateY(0) scale(1);
+    filter: brightness(1) blur(0);
+  }
+}
+
+@keyframes holoBeam {
+  0% {
+    background-position: -100% -100%;
+    opacity: 0;
+    transform: scale(1);
+  }
+  25% {
+    opacity: 0.7;
+    transform: scale(1.02);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.01);
+  }
+  75% {
+    opacity: 0.5;
+    transform: scale(1.02);
+  }
+  100% {
+    background-position: 200% 200%;
+    opacity: 0;
+    transform: scale(1);
+  }
+}

@@ -2,11 +2,14 @@
     "name": "ui-kit-project",
     "version": "1.0.0",
     "description": "UI Kit проект на Vue 2 с Quasar и Webpack 4",
+    "homepage": "https://d-skh.github.io/verstka",
     "main": "index.js",
     "scripts": {
         "dev": "webpack-dev-server --mode development --open",
         "build": "webpack --mode production",
-        "build:dev": "webpack --mode development"
+        "build:dev": "webpack --mode development",
+        "build:deploy": "set DEPLOY=true&& webpack --mode production",
+        "preview": "npm run build && npx serve dist -s"
     },
     "keywords": [
         "vue",
@@ -33,6 +36,7 @@
         "core-js": "^3.8.0",
         "css-loader": "^5.2.7",
         "file-loader": "^6.2.0",
+        "gh-pages": "^6.3.0",
         "html-webpack-plugin": "^4.5.2",
         "mini-css-extract-plugin": "^1.6.2",
         "node-sass": "^7.0.3",

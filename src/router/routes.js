@@ -15,6 +15,7 @@ const routes = [
         component: () => import('@/components/OrderDetail.vue')
       },
       { path: '/support', component: () => import('@/pages/Support.vue') },
+      { path: '/delivery', component: () => import('@/pages/DeliveryStatuses.vue') },
       { path: '/devices', component: () => import('@/pages/Devices.vue') },
       { path: '/profile', component: () => import('@/pages/Profile.vue') },
       { path: '/buttonsDemo', component: () => import('@/components/ButtonsDemo.vue') },

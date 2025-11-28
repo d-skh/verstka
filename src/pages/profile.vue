@@ -176,7 +176,7 @@
         <div class="text-h2 q-mb-md">Быстрый доступ</div>
         <div class="row q-col-gutter-sm">
           <div class="col-6">
-            <q-card class="link-card cursor-pointer" @click="$router.push('/support')">
+            <q-card class="translate cursor-pointer" @click="$router.push('/support')">
               <q-card-section class="text-center">
                 <q-icon name="help" size="lg" color="primary" />
                 <div class="text-h4 q-mt-sm">Мои вопросы</div>
@@ -184,7 +184,7 @@
             </q-card>
           </div>
           <div class="col-6">
-            <q-card class="link-card cursor-pointer" @click="$router.push('/devices')">
+            <q-card class="translate cursor-pointer" @click="$router.push('/devices')">
               <q-card-section class="text-center">
                 <q-icon name="devices" size="lg" color="primary" />
                 <div class="text-h4 q-mt-sm">Мои устройства</div>
